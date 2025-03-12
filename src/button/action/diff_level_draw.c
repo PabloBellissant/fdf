@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   diff_level_draw.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/12 03:34:50 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 03:34:52 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+void	diff_level_draw(t_data *data)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	if (data->param.draw_diff_level_line == false)
+	{
+		data->param.draw_diff_level_line = true;
+		data->button[2].color = 0x39F200;
+		data->button[2].text_color = 0x000000;
+	}
+	else
+	{
+		data->param.draw_diff_level_line = false;
+		data->button[2].color = 0xf20000;
+		data->button[2].text_color = 0xFFFFFF;
+	}
 }

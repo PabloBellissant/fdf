@@ -17,139 +17,15 @@
 #include "fdf.h"
 #include "libft.h"
 
-typedef struct s_data
-{
-	t_param	param;
-	void	*mlx;
-	void	*win;
-	void	*img;
-	int		*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-} t_data;
-
-void put_pixel(const t_data *data, const int x, const int y, const int color)
-{
-	if (y * SCREEN_WIDTH + x > 0)
-		data->addr[y * SCREEN_WIDTH + x] = color;
-}
-
-int	av(const int val_a, const int val_b)
-{
-	return ((val_a + val_b) >> 1);
-}
-
-t_color	calc_degrade(const t_color color_a, const t_color color_b, const double mod)
-{
-	t_color	new;
-	if (color_a.color != color_b.color)
-		dprintf(2, "%d, %d, %f : ", color_a.color, color_b.color, mod);
-	new.color = 0;
-	new.rgb.r = color_a.rgb.r * (1 - mod);
-	new.rgb.g = color_a.rgb.g * (1 - mod);
-	new.rgb.b = color_a.rgb.b * (1 - mod);
-	new.rgb.r += color_b.rgb.r * mod;
-	new.rgb.g += color_b.rgb.g * mod;
-	new.rgb.b += color_b.rgb.b * mod;
-	if (color_a.color != color_b.color)
-		dprintf(2, "%d\n", new.color);
-	return (new);
-}
-
-void	draw_line(t_data *data, t_point point_a, t_point point_b)
-{
-	int	dx;
-	int	dy;
-	int	i;
-	t_point temp;
-	double coef;
-	t_color	color;
-
-	t_point *var = NULL;
-	if (point_b.x_view < point_a.x_view)
-	{
-		temp = point_a;
-		var = &temp;
-		point_a = point_b;
-		point_b = temp;
-		swap_int((int *) &(point_a.color.color), (int *) &(point_b.color.color));
-	}
-	dx = point_b.x_view - point_a.x_view;
-	dy = point_b.y_view - point_a.y_view;
-	if (abs(dx) >= abs(dy))
-	{
-		if (var != NULL)
-			swap_int((int *) &(point_a.color.color), (int *) &(point_b.color.color));
-		coef = (double)dy / dx;
-		i = point_a.x_view;
-		color = point_a.color;
-		while (i <= point_b.x_view)
-		{
-			if (data->param.degrade == true)
-				color = calc_degrade(point_a.color, point_b.color, (double)(i - point_a.x_view) / point_b.x_view);
-			put_pixel(data, i, point_a.y_view + ((i - point_a.x_view) * coef), color.color);
-			++i;
-		}
-		return ;
-	}
-	coef = (double)dx / dy;
-	i = point_a.y_view;
-	color = point_a.color;
-	while (i < point_b.y_view || i > point_b.y_view)
-	{
-		if (data->param.degrade == true)
-			color = calc_degrade(point_a.color, point_b.color, (double)(i - point_a.y_view) / point_b.x_view);
-		put_pixel(data, point_a.x_view + ((i - point_a.y_view) * coef), i, color.color);
-		++i;
-		if (i > point_b.y_view)
-			i -= 2;
-	}
-	put_pixel(data, point_a.x_view + ((i - point_a.y_view) * coef), i, point_a.color.color);
-}
-
-void	iso_calc(t_point *point)
-{
-	int	new_x;
-	int	new_y;
-
-	point->y_view *= -1;
-	new_x = (sqrt(2)/2) * (point->x_view - point->y_view);
-	new_y = (sqrt((double)2 / 3) * (point->z * -3)) - (((double)1 / sqrt(6)) * (point->x_view + point->y_view));
-	point->x_view = new_x;
-	point->y_view = new_y;
-}
-
-void	init_param(t_data *data)
-{
-	data->param.draw_line = true;
-	data->param.degrade = false;
-	data->param.antialiasing = false;
-	data->param.filled = false;
-	data->param.z_buffering = false;
-	data->param.limit_fps = false;
-	data->param.auto_rotate = false;
-	data->param.random_rotation = false;
-}
-
-t_point	*get_point(t_vector *map, int x, int y)
+t_point	*get_point(t_data *data, int x, int y)
 {
 	t_point	*point;
-	size_t	i;
 
-	i = 1;
-	point = ((t_point *)get_vector_value(map, 0));
-	while (point->x != x || point->y != y)
-	{
-		point = (t_point *)get_vector_value(map, i);
-		++i;
-		if (map->num_elements == i)
-			return (NULL);
-	}
+	point = ((t_point *)get_vector_value(data->map, y * data->map_data.size_x + x));
 	return (point);
 }
 
-void	set_view(t_vector *map)
+void	set_view(t_vector *map, t_data data)
 {
 	size_t	i;
 	t_point	*point;
@@ -158,8 +34,10 @@ void	set_view(t_vector *map)
 	while (i < map->num_elements)
 	{
 		point = (t_point *)get_vector_value(map, i);
-		point->x_view = point->x * 50 - 800;
-		point->y_view = point->y * 50 + 1600;
+		point->x_view = point->x * data.map_data.spacing + data.map_data.x;
+		point->y_view = -point->z * data.map_data.spacing;
+		point->z_view = point->y * data.map_data.spacing + data.map_data.y;
+
 		if (point->z == 0)
 			point->color.color = 2147483647;
 		else
@@ -168,55 +46,126 @@ void	set_view(t_vector *map)
 			point->color.rgb.r = 255;
 			point->color.rgb.b = 250;
 		}
-		iso_calc(point);
+		rotation_matrix(point, data.camera);
+		point->x_view += data.camera.x;
+		point->y_view += data.camera.y;
 		++i;
 	}
 }
-
 #include <fcntl.h>
 #include <stdio.h>
-int main(int argc, char **argv)
-{
-	t_data		data;
-	t_vector	*map;
+#include <X11/X.h>
+#include <X11/keysym.h>
 
-	(void) argc;
-	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "FDF");
-	data.img = mlx_new_image(data.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	data.addr = (int *)mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
-	init_param(&data);
-	map = NULL;
-	int fd = open(argv[1], O_RDONLY);
-	open_map(&map, fd);
-	set_view(map);
+int game_loop(t_data *data)
+{
+	data->info.fps = get_fps();
+	++data->info.frames_generated;
+	if (mouse_is_pressed(3, *data))
+	{
+		data->camera.pitch -= (float)(data->mouse.x - data->mouse.old_x) / 300;
+		data->camera.yaw += (float)(data->mouse.y - data->mouse.old_y) / 300;
+		normalize_camera(&data->camera);
+		data->mouse.old_x = data->mouse.x;
+		data->mouse.old_y = data->mouse.y;
+		set_camera_math(&data->camera);
+	}
+	if (mouse_is_pressed(2, *data))
+	{
+		data->camera.x += (data->mouse.x - data->mouse.old_x) * 1.6;
+		data->camera.y += (data->mouse.y - data->mouse.old_y) * 1.6;
+		data->mouse.old_x = data->mouse.x;
+		data->mouse.old_y = data->mouse.y;
+	}
+	clear_window(data);
+	set_view(data->map, *data);
+	data->map_data.x = -((data->map_data.size_x >> 1) * data->map_data.spacing);
+	data->map_data.y = -((data->map_data.size_y >> 1) * data->map_data.spacing);
 
 	int	x;
 	int	y = 0;
-	t_point *point;
+	t_point	*point;
 	t_point	*temp;
-	while (y < 11)
+	while (y < data->map_data.size_y)
 	{
 		x = 0;
-		while (x < 18)
+		while (x < data->map_data.size_x)
 		{
-			point = get_point(map, x, y);
-			if (x < 17)
+			point = get_point(data, x, y);
+			if (x < data->map_data.size_x - 1)
 			{
-				temp = get_point(map, x + 1, y);
-				draw_line(&data, *point, *temp);
+				temp = get_point(data, x + 1, y);
+				if ((data->param.draw_diff_level_line == true && point->z != temp->z) || (data->param.draw_same_level_line == true && point->z == temp->z))
+					draw_line(data, *point, *temp);
 			}
-			if (y < 10)
+			if (y < data->map_data.size_y - 1)
 			{
-				temp = get_point(map, x, y + 1);
-				draw_line(&data, *point, *temp);
+				temp = get_point(data, x, y + 1);
+				if ((data->param.draw_diff_level_line == true && point->z != temp->z) || (data->param.draw_same_level_line == true && point->z == temp->z))
+					draw_line(data, *point, *temp);
 			}
 			++x;
 		}
 		++y;
 	}
+	auto_rotate(data);
+	data->delta_time = get_delta_time();
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	draw_buttons(data);
+	draw_string(*data, (t_pos){data->SCREEN_WIDTH - 220, 100}, "FPS :", 0xFFFFFF);
+	draw_int(*data, data->SCREEN_WIDTH - 160, 100, data->info.fps);
+	draw_int(*data, data->SCREEN_WIDTH - 160, 150, to_degrees(data->camera.pitch));
+	draw_int(*data, data->SCREEN_WIDTH - 160, 200, to_degrees(data->camera.yaw));
+	return (0);
+}
 
-	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+int	mouse_move(const int x, const int y, t_data *data)
+{
+	if (x == data->mouse.x && y == data->mouse.y)
+		return (-1);
+	data->mouse.old_x = data->mouse.x;
+	data->mouse.old_y = data->mouse.y;
+	data->mouse.x = x;
+	data->mouse.y = y;
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	t_data	data = {0};
+
+	init_key(&data);
+	set_button(&data);
+	(void) argc;
+	data.mlx = mlx_init();
+	mlx_get_screen_size(data.mlx, &data.screen.width, &data.screen.height);
+	data.win = mlx_new_window(data.mlx, data.SCREEN_WIDTH, data.SCREEN_HEIGHT, "FDF");
+	data.img = mlx_new_image(data.mlx, data.SCREEN_WIDTH, data.SCREEN_HEIGHT);
+	data.addr = (int *)mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+	init_param(&data);
+	int fd = open(argv[1], O_RDONLY);
+	data.camera.x = data.SCREEN_WIDTH / 2;
+	data.camera.y = data.SCREEN_HEIGHT / 2;
+	data.camera.fov = 90;
+	data.camera.aspect_ratio = data.SCREEN_WIDTH / data.SCREEN_HEIGHT;
+	data.camera.near_plane = 1.0;
+	data.camera.far_plane = 1000.0;
+	data.camera.pitch = to_rad(45);
+	data.camera.yaw = to_rad(35.264);
+	data.camera.roll = 0;
+	open_map(&data, fd);
+
+	set_camera_math(&data.camera);
+	data.map_data.spacing = 5;
+	mlx_hook(data.win, KeyPress, KeyPressMask, key_press, &data);
+	mlx_hook(data.win, KeyRelease, KeyReleaseMask, key_release, &data);
+	mlx_hook(data.win, ButtonPress, ButtonPressMask, mouse_press, &data);
+	mlx_hook(data.win, ButtonRelease, ButtonReleaseMask, mouse_release, &data);
+	mlx_hook(data.win, MotionNotify, PointerMotionMask, mouse_move, &data);
+	mlx_loop_hook(data.mlx, game_loop, &data);
 	mlx_loop(data.mlx);
 	return (0);
 }
+
+
+//quaternion

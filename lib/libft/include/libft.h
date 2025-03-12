@@ -32,6 +32,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_atoi(const char *nptr);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		free_tab(char **tab);
+int		av(const int val_a, const int val_b);
 
 size_t	ft_strlen(const char *s);
 size_t	ft_tab_len(void **tab);

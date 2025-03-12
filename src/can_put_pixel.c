@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   can_put_pixel.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/11 21:04:01 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/11 21:04:04 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+bool	can_put_pixel(const t_data *data, const t_point point_a)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	if (point_a.x_view < 0)
+		return (false);
+	if (point_a.y_view < 0)
+		return (false);
+	if (point_a.x_view >= data->SCREEN_WIDTH)
+		return (false);
+	if (point_a.y_view >= data->SCREEN_HEIGHT)
+		return (false);
+	return (true);
 }

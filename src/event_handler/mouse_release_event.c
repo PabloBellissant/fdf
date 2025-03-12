@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   mouse_release_event.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/05 02:19:15 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/05 02:19:19 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <X11/keysym.h>
+#include "../../include/fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+int	mouse_release(const int button, int x, int y, t_data *data)
 {
+	static const KEY_TYPE	key_map[] = {1, 2, 3};
+	bool					*value[] = {&data->mouse.left_click,
+		&data->mouse.middle_click, &data->mouse.right_click};
 	size_t	i;
 
+	(void) x;
+	(void) y;
+	if (button > 3)
+		return (0);
 	i = 0;
-	while (s[i])
+	while (i < 3)
+	{
+		if (key_map[i] == button)
+		{
+			(*value)[i] = false;
+			return (0);
+		}
 		++i;
-	return (i);
+	}
+	return (-1);
 }

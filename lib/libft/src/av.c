@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   av.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/06 03:23:11 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 03:23:13 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 /**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
+ * @brief Calculate the average of two values.
+ * @param val_a The first value.
+ * @param val_b The second value.
+ * @return The average in int.
  * @author Bellissant Pablo
  */
-size_t	ft_strlen(const char *s)
+int	av(const int val_a, const int val_b)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	return ((val_a + val_b + 1) >> 1);
 }

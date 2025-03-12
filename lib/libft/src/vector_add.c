@@ -19,7 +19,7 @@ int	vector_add(t_vector *vector, void *element)
 {
 	if (!vector || !element)
 		return (-1);
-	if (vector->num_elements + 1 > vector->max_elements)
+	if (vector->num_elements + 1 == vector->max_elements)
 	{
 		if (vector_realloc(vector) == -1)
 			return (-1);
@@ -34,7 +34,7 @@ static int	vector_realloc(t_vector *vector)
 {
 	void	*new_data;
 
-	new_data = malloc(vector->element_size * vector->max_elements * 2);
+	new_data = malloc(vector->element_size * vector->max_elements * 2 + 1);
 	if (new_data == NULL)
 		return (-1);
 	ft_memcpy(new_data, vector->data,

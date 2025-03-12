@@ -23,5 +23,27 @@
  */
 void	*ft_bzero(void *s, size_t n)
 {
-	return (ft_memset(s, 0, n));
+	long long		*ptr;
+	unsigned char	*byte_ptr;
+	size_t			n_divide_64;
+
+	ptr = (long long *)s;
+	n_divide_64 = n / 64;
+	while (n_divide_64--)
+	{
+		ptr[0] = 0;
+		ptr[1] = 0;
+		ptr[2] = 0;
+		ptr[3] = 0;
+		ptr[4] = 0;
+		ptr[5] = 0;
+		ptr[6] = 0;
+		ptr[7] = 0;
+		ptr += 8;
+	}
+	byte_ptr = (unsigned char *)ptr;
+	n %= 64;
+	while (n--)
+		*byte_ptr++ = 0;
+	return (s);
 }

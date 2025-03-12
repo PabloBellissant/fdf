@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   get_delta_time.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/12 04:59:52 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 04:59:53 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+int	get_delta_time(void)
 {
-	size_t	i;
+	static int	last_time;
+	int			new_time;
+	int			output;
 
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	if (last_time == 0)
+		last_time = get_proc_time();
+	new_time = get_proc_time();
+	output = new_time - last_time;
+	last_time = new_time;
+	return (output);
 }

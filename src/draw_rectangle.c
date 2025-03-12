@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   draw_rectangle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/12 01:48:15 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 01:48:17 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+void	draw_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color)
 {
-	size_t	i;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	if (pos_a.x > pos_b.x)
+		swap_int(&pos_a.x, &pos_b.x);
+	if (pos_a.y > pos_b.y)
+		swap_int(&pos_a.y, &pos_b.y);
+	y = pos_a.y;
+	while (y <= pos_b.y)
+	{
+		x = pos_a.x;
+		while (x <= pos_b.x)
+		{
+			put_pixel(data, x, y, color);
+			++x;
+		}
+		++y;
+	}
 }

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   get_fps.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/12 01:02:41 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 01:02:43 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+int	get_fps(void)
 {
-	size_t	i;
+	static int	start_time;
+	static int	frame_generated;
+	static int	fps;
+	int			new_time;
 
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	if (start_time == 0)
+		start_time = get_proc_time();
+	++frame_generated;
+	new_time = get_proc_time();
+	if (start_time + 1000 < new_time)
+	{
+		fps = frame_generated;
+		frame_generated = 0;
+		start_time = new_time;
+	}
+	return (fps);
 }

@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   draw_string.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/07 02:35:43 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/07 02:35:45 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "mlx.h"
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+void	draw_string(const t_data data, t_pos pos, char *str, int color)
 {
-	size_t	i;
+	int	adjust;
 
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	adjust = 5 * ft_strlen(str);
+	mlx_set_font(data.mlx, data.win, "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16");
+	mlx_string_put(data.mlx, data.win, pos.x - adjust, pos.y + 6, color, str);
 }

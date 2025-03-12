@@ -16,28 +16,34 @@
 
 static int	set_line_on_vector(char *line, t_vector *vec, size_t line_num);
 
-int	open_map(t_vector **map, int fd)
+int	open_map(t_data *data, int fd)
 {
-	char	*line;
-	size_t	line_num;
+	t_vector	*map;
+	char		*line;
+	size_t		line_num;
+	size_t		line_len;
 
-	*map = malloc(sizeof(t_vector));
-	if (*map == NULL)
+	map = malloc(sizeof(t_vector) + 1);
+	if (map == NULL)
 		return (-1);
-	if (vector_init(*map, sizeof(t_point)) == -1)
+	if (vector_init(map, sizeof(t_point)) == -1)
 	{
-		free(*map);
+		free(map);
 		return (0);
 	}
 	line_num = 0;
+	line_len = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		set_line_on_vector(line, *map, line_num);
+		line_len = set_line_on_vector(line, map, line_num);
 		free(line);
 		line = get_next_line(fd);
 		++line_num;
 	}
+	data->map = map;
+	data->map_data.size_x = line_len;
+	data->map_data.size_y = line_num;
 	return (0);
 }
 
@@ -51,7 +57,7 @@ static int	set_line_on_vector(char *line, t_vector *vec, size_t line_num)
 	i = 0;
 	while (splited[i])
 	{
-		point = malloc(sizeof(point));
+		point = malloc(sizeof(t_point));
 		if (point == NULL)
 		{
 			free_tab(splited);
@@ -64,5 +70,5 @@ static int	set_line_on_vector(char *line, t_vector *vec, size_t line_num)
 		vector_add(vec, point);
 		++i;
 	}
-	return (0);
+	return (i);
 }

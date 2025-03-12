@@ -38,6 +38,7 @@ char	*ft_strsjoin(char *first, ...)
 static void	ft_strcat_va(char *output, va_list list, size_t *total_len)
 {
 	char *str = va_arg(list, char *);
+
 	while (str != NULL)
 	{
 		ft_strlcat(output, str, *total_len + ft_strlen(str) + 1);

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   get_proc_time.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/06 03:36:47 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 03:36:48 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stddef.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "libft.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+ssize_t	get_proc_time(void)
 {
+	int		fd;
+	char	tab[200];
 	size_t	i;
 
-	i = 0;
-	while (s[i])
+	fd = open("/proc/self/sched", O_RDONLY);
+	if (fd == -1 || read(fd, tab, 200) == -1)
+		return (-1);
+	i = 140;
+	while (ft_isdigit(tab[i]) == 0)
 		++i;
-	return (i);
+	if (close(fd) == -1)
+		return (-1);
+	return (ft_atoi(tab + i));
 }

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   rotation_matrix.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/06 03:09:03 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 03:09:05 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <math.h>
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+void	rotation_matrix(t_point *point, const t_camera camera)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	float	matrix_a[3][3] = {{camera.cospitch, 0, -camera.sinpitch},
+		{0, 1, 0},
+		{camera.sinpitch, 0, camera.cospitch}};
+	float	matrix_b[3][3] = {{1, 0, 0},
+		{0, camera.cosyaw, camera.sinyaw},
+		{0, -camera.sinyaw, camera.cosyaw}};
+	calc_matrix(point, matrix_a);
+	calc_matrix(point, matrix_b);
 }

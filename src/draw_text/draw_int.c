@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   draw_int.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/07 04:44:51 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/07 04:51:39 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "mlx.h"
+#include "fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+void	draw_int(const t_data data, const int x, const int y, int value)
 {
-	size_t	i;
+	char	*value_in_str;
 
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
+	value_in_str = ft_itoa(value);
+	mlx_set_font(data.mlx, data.win, "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16");
+	mlx_string_put(data.mlx, data.win, x, y, 0xFFFFFF, value_in_str);
+	free(value_in_str);
 }

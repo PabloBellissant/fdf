@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   mouse_is_pressed.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:13:48 by pabellis          #+#    #+#             */
-/*   Updated: 2025/01/23 03:40:13 by pabellis         ###   ########lyon.fr   */
+/*   Created: 2025/03/05 03:09:53 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/05 03:09:56 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stddef.h>
+#include <X11/keysym.h>
+#include "../../include/fdf.h"
 
-/**
- * @brief Calculate the length of a string.
- * @param s The string to calculate the length.
- * @return The length of the 's' string.
- * @attention The string must not be NULL.
- * @author Bellissant Pablo
- */
-size_t	ft_strlen(const char *s)
+bool	mouse_is_pressed(const KEY_TYPE button, const t_data data)
 {
+	static const KEY_TYPE	key_map[] = {1, 2, 3};
+	const bool				value[] = {data.mouse.left_click,
+		data.mouse.middle_click, data.mouse.right_click};
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	while (i < 3)
+	{
+		if (key_map[i] == button)
+			return (value[i]);
 		++i;
-	return (i);
+	}
+	return (false);
 }

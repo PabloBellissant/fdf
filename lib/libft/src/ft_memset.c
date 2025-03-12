@@ -30,8 +30,8 @@ void	*ft_memset(void *s, int c, size_t n)
 	while (i < n)
 	{
 		*ptr = (uint8_t)c;
-		i += 1;
-		ptr += 1;
+		++i;
+		++ptr;
 	}
 	return (s);
 }
