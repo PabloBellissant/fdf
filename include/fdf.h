@@ -17,10 +17,12 @@
 # include <stdbool.h>
 # include "libft.h"
 
-# define SCREEN_WIDTH screen.width
-# define SCREEN_HEIGHT screen.height
+# define WIDTH screen.width
+# define HEIGHT screen.height
 
-# define BUTTON_NUMBERS 8//16
+# define BUTTON_AMOUNT 11//16
+# define MAPS_AMOUNT 41
+# define FONT "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16"
 
 # define KEY_TYPE int
 
@@ -53,6 +55,12 @@ typedef struct s_pos
 	int		x;
 	int		y;
 }	t_pos;
+
+typedef struct s_map_list
+{
+	char	**map_list;
+	int		actual;
+}	t_map_list;
 
 typedef struct s_camera
 {
@@ -93,7 +101,6 @@ typedef struct s_param
 	bool	motion_blur;
 	bool	full_clear;
 	bool	auto_rotate;
-	bool	random_rotation;
 	bool	degrade;
 	bool	antialiasing;
 	bool	filled;
@@ -148,6 +155,7 @@ typedef struct	s_button
 	int		text_color;
 	char	*text;
 	void	(*f)(t_data *);
+	bool	pressed;
 }	t_button;
 
 typedef struct s_data
@@ -159,8 +167,9 @@ typedef struct s_data
 	t_map			map_data;
 	t_info			info;
 	t_screen		screen;
-	t_button		button[BUTTON_NUMBERS];
-	t_vector		*map;
+	t_button		button[BUTTON_AMOUNT];
+	t_vector		map;
+	t_map_list		map_list;
 	void			*mlx;
 	void			*win;
 	void			*img;
@@ -172,6 +181,7 @@ typedef struct s_data
 } t_data;
 
 int		open_map(t_data *data, int fd);
+int		convert_hexa(const char *str);
 void	init_key(t_data *data);
 bool	key_is_pressed(const KEY_TYPE key, t_data data);
 int		key_press(const int keycode, t_data *data);
@@ -182,26 +192,49 @@ int		mouse_release(const int button, int x, int y, t_data *data);
 void	mouse_wheel(const int button, t_data *data);
 t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
 			, t_data data);
-void	calc_matrix(t_point *p, float m[3][3]);
-void	rotation_matrix(t_point *point, const t_camera camera);
+void	calc_matrix(t_point *p, float m[9]);
+void	iso_matrix(t_point *p, const t_camera camera);
 void	init_param(t_data *data);
 void	put_pixel(t_data *data, int x, int y, const int color);
+void	safe_put_pixel(t_data *data, int x, int y, const int color);
 ssize_t	get_proc_time(void);
 void	draw_string(const t_data data, t_pos pos, char *str, int color);
+void	draw_center_string(const t_data data, t_pos pos, char *str, int color);
 void	draw_int(const t_data data, const int x, const int y, int value);
+void	draw_string_int(const t_data data, t_pos pos, char *str, int value);
 float	to_rad(float degrees);
 float	to_degrees(float radian);
+void	check_input(t_data *data);
 void	isometric_projection(t_point *point, const t_camera camera);
-void	draw_line(t_data *data, t_point point_a, t_point point_b);
 bool	can_put_pixel(const t_data *data, const t_point point_a);
+bool	can_put_pos(const t_data *data, const t_pos pos);
+bool	can_put_rectangle(const t_data *data, t_pos pos_a, t_pos pos_b);
 void	normalize_camera(t_camera *camera);
 int		get_fps(void);
-void	draw_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color);
+void	draw_full_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color);
+void	draw_edge_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color);
 void	clear_window(t_data *data);
 void	set_camera_math(t_camera *camera);
 int		get_delta_time(void);
 void	auto_rotate(t_data *data);
+int		mouse_move(const int x, const int y, t_data *data);
+void	draw_data(t_data *data);
+void	ft_sleep(int ms);
+void	hook_handler(t_data *data);
+int		loop(t_data *data);
+void	calc_view(t_vector *map, t_data *data);
+t_point	*get_point(t_data *data, int x, int y);
+int		init_graphic(t_data *data);
+char	*get_simple_name(char *str);
 
+void	draw_line(t_data *data, t_point point_a, t_point point_b);
+void	bresenham_h(t_data *data, t_point point_a, t_point point_b, int color);
+void	bresenham_v(t_data *data, t_point point_a, t_point point_b, int color);
+void	bresenham_degrade_h(t_data *data, t_point point_a, t_point point_b);
+void	bresenham_degrade_v(t_data *data, t_point point_a, t_point point_b);
+void	xiaolin_wu(t_data *data, t_point point_a, t_point point_b, int color);
+
+void	draw_gui(t_data *data);
 void	set_button(t_data *data);
 void	set_draw_line(t_data *data);
 void	draw_buttons(t_data *data);
@@ -213,5 +246,8 @@ void	fun_lsd(t_data *data);
 void	set_motion_blur(t_data *data);
 void	set_full_clear(t_data *data);
 void	set_auto_rotate(t_data *data);
+void	set_limit_fps(t_data *data);
+void	set_degrade(t_data *data);
+void	set_antialiasing(t_data *data);
 
 #endif

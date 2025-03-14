@@ -19,7 +19,6 @@ void	draw_int(const t_data data, const int x, const int y, int value)
 	char	*value_in_str;
 
 	value_in_str = ft_itoa(value);
-	mlx_set_font(data.mlx, data.win, "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16");
 	mlx_string_put(data.mlx, data.win, x, y, 0xFFFFFF, value_in_str);
 	free(value_in_str);
 }

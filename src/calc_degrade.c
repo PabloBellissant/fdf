@@ -18,7 +18,8 @@ t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
 {
 	t_color	new;
 
-	new.color = 0;
+	if (color_a.color == color_b.color)
+		return (color_a);
 	if (data.param.degrade == false)
 	{
 		new.rgb.r = av(color_a.rgb.r, color_b.rgb.r);
@@ -26,6 +27,7 @@ t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
 		new.rgb.b = av(color_a.rgb.b, color_b.rgb.b);
 		return (new);
 	}
+	new.color = 0;
 	if (mod < 0)
 		mod *= -1;
 	new.rgb.r = color_a.rgb.r * (1 - mod);

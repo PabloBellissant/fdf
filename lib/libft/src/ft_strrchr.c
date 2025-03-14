@@ -34,7 +34,7 @@ char	*ft_strrchr(const char *s, int c)
 			temp = (char *)s;
 			return (temp + i);
 		}
-		i -= 1;
+		--i;
 	}
 	return (NULL);
 }

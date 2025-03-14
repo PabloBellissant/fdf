@@ -12,16 +12,16 @@
 
 #include "fdf.h"
 
-void	calc_matrix(t_point *p, float m[3][3])
+inline void	calc_matrix(t_point *p, float m[9])
 {
 	int	x;
 	int	y;
 	int	z;
 
-	x = (p->x_view * m[0][0]) + (p->y_view * m[0][1]) + (p->z_view * m[0][2]);
-	y = (p->x_view * m[1][0]) + (p->y_view * m[1][1]) + (p->z_view * m[1][2]);
-	z = (p->x_view * m[2][0]) + (p->y_view * m[2][1]) + (p->z_view * m[2][2]);
-	p->x_view = x;
-	p->y_view = y;
-	p->z_view = z;
+	x = p->x_view;
+	y = p->y_view;
+	z = p->z_view;
+	p->x_view = (x * m[0]) + (y * m[1]) + (z * m[2]);
+	p->y_view = (x * m[3]) + (y * m[4]) + (z * m[5]);
+	p->z_view = (x * m[6]) + (y * m[7]) + (z * m[8]);
 }

@@ -25,8 +25,4 @@ void	init_key(t_data *data)
 	data->mouse.left_click = false;
 	data->mouse.middle_click = false;
 	data->mouse.right_click = false;
-	data->mouse.old_x = 0;
-	data->mouse.old_y = 0;
-	data->mouse.x = 500;
-	data->mouse.y = 1200;
 }

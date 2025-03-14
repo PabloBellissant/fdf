@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_pressed.c                           a            :+:      :+:    :+:   */
+/*   is_pressed.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,7 +21,7 @@ bool	key_is_pressed(const KEY_TYPE key, const t_data data)
 	const bool				value[] = {data.input.w, data.input.a, data.input.s,
 		data.input.d, data.input.up, data.input.left, data.input.down,
 		data.input.right};
-	size_t	i;
+	int					i;
 
 	i = 0;
 	while (i < 8)

@@ -12,19 +12,33 @@
 
 #include "fdf.h"
 
+# define L_GRAY 0x292929
+
 void	draw_buttons(t_data *data)
 {
 	int			i;
 	t_button	b;
 
 	i = 0;
-	while (i < BUTTON_NUMBERS)
+	while (i < BUTTON_AMOUNT)
 	{
 		b = data->button[i];
-		draw_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
-			b.x + b.dim_x, b.y + b.dim_y}, b.color);
-		draw_string(*data, (t_pos){b.x + (b.dim_x >> 1),
-			b.y + b.dim_y / 2}, b.text, b.text_color);
+		if (can_put_rectangle(data, (t_pos){b.x, b.y},
+				(t_pos){b.x + b.dim_x, b.y + b.dim_y}) == true)
+		{
+			if (b.pressed == true)
+				draw_full_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
+					b.x + b.dim_x, b.y + b.dim_y}, b.color);
+			else
+			{
+				draw_full_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
+					b.x + b.dim_x, b.y + b.dim_y}, L_GRAY);
+				draw_edge_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
+					b.x + b.dim_x, b.y + b.dim_y}, b.color);
+			}
+			draw_center_string(*data, (t_pos){b.x + (b.dim_x >> 1),
+				b.y + b.dim_y / 2}, b.text, b.text_color);
+		}
 		++i;
 	}
 }

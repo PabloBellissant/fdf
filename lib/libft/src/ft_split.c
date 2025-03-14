@@ -69,8 +69,8 @@ static size_t	beforecharset(const char *str, char c)
 	size_t	i;
 
 	i = 0;
-	while (str[i] != c && str[i])
-		i += 1;
+	while (str[i] && str[i] != c)
+		++i;
 	return (i);
 }
 

@@ -17,13 +17,15 @@ void	diff_level_draw(t_data *data)
 	if (data->param.draw_diff_level_line == false)
 	{
 		data->param.draw_diff_level_line = true;
-		data->button[2].color = 0x39F200;
+		data->button[2].pressed = true;
+		data->button[2].color = 0xFFFFFF;
 		data->button[2].text_color = 0x000000;
 	}
 	else
 	{
 		data->param.draw_diff_level_line = false;
-		data->button[2].color = 0xf20000;
+		data->button[2].pressed = false;
+		data->button[2].color = 0xFFFFFF;
 		data->button[2].text_color = 0xFFFFFF;
 	}
 }

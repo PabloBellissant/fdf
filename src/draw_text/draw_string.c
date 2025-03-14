@@ -15,9 +15,16 @@
 
 void	draw_string(const t_data data, t_pos pos, char *str, int color)
 {
+	if (str)
+		mlx_string_put(data.mlx, data.win, pos.x, pos.y, color, str);
+	else
+		mlx_string_put(data.mlx, data.win, pos.x, pos.y, color, "ERROR");
+}
+
+void	draw_center_string(const t_data data, t_pos pos, char *str, int color)
+{
 	int	adjust;
 
 	adjust = 5 * ft_strlen(str);
-	mlx_set_font(data.mlx, data.win, "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16");
 	mlx_string_put(data.mlx, data.win, pos.x - adjust, pos.y + 6, color, str);
 }

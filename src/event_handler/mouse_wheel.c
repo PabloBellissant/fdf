@@ -1,4 +1,4 @@
-/* ************					************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mouse_wheel.c                                      :+:      :+:    :+:   */
@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 void	mouse_wheel(const int button, t_data *data)
 {
 	if (button == 4)
 	{
-		if (data->map_data.spacing < data->SCREEN_WIDTH)
+		if (data->map_data.spacing < data->WIDTH)
 		{
 			data->map_data.spacing *= 1.10;
-			data->map_data.x = -((data->map_data.size_x / 2) * data->map_data.spacing);
-			data->map_data.y = -((data->map_data.size_y / 2) * data->map_data.spacing);
+			data->map_data.x = -data->map_data.spacing;
+			data->map_data.y = -data->map_data.spacing;
 		}
 	}
 	else
@@ -28,8 +28,8 @@ void	mouse_wheel(const int button, t_data *data)
 		if (data->map_data.spacing > 1)
 		{
 			data->map_data.spacing /= 1.10;
-			data->map_data.x = -((data->map_data.size_x / 2) * data->map_data.spacing);
-			data->map_data.y = -((data->map_data.size_y / 2) * data->map_data.spacing);
+			data->map_data.x = -data->map_data.spacing;
+			data->map_data.y = -data->map_data.spacing;
 		}
 	}
 }

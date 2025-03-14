@@ -18,9 +18,29 @@ bool	can_put_pixel(const t_data *data, const t_point point_a)
 		return (false);
 	if (point_a.y_view < 0)
 		return (false);
-	if (point_a.x_view >= data->SCREEN_WIDTH)
+	if (point_a.x_view >= data->WIDTH)
 		return (false);
-	if (point_a.y_view >= data->SCREEN_HEIGHT)
+	if (point_a.y_view >= data->HEIGHT)
 		return (false);
 	return (true);
+}
+
+bool	can_put_pos(const t_data *data, const t_pos pos)
+{
+	if (pos.x < 0)
+		return (false);
+	if (pos.y < 0)
+		return (false);
+	if (pos.x >= data->WIDTH)
+		return (false);
+	if (pos.y >= data->HEIGHT)
+		return (false);
+	return (true);
+}
+
+bool	can_put_rectangle(const t_data *data, t_pos pos_a, t_pos pos_b)
+{
+	if (can_put_pos(data, pos_a) == true && can_put_pos(data, pos_b) == true)
+		return (true);
+	return (false);
 }

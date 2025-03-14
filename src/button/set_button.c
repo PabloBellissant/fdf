@@ -11,23 +11,30 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+# define L_GRAY 0x292929
 
 void	set_button(t_data *data)
 {
-	data->button[0] = (t_button){100, 100, 120, 25, 0x39F200, 0,
-		"DRAW_LINE", &set_draw_line};
-	data->button[1] = (t_button){100, 140, 120, 25, 0x39F200, 0,
-		"SAME_LEVEL", &same_level_draw};
-	data->button[2] = (t_button){100, 180, 120, 25, 0x39F200, 0,
-		"DIFF_LEVEL", &diff_level_draw};
-	data->button[3] = (t_button){100, 220, 120, 25, 0x39F200, 0,
-		"SET_CLIP", &set_clipping};
-	data->button[4] = (t_button){235, 260, 120, 25, 0xf20000, 0xFFFFFF,
-		"FUN_LSD", &fun_lsd};
-	data->button[5] = (t_button){370, 260, 120, 25, 0xf20000, 0xFFFFFF,
-		"SET_BLUR", &set_motion_blur};
-	data->button[6] = (t_button){100, 260, 120, 25, 0x39F200, 0,
-		"FULL_CLEAR", &set_full_clear};
-	data->button[7] = (t_button){100, 300, 120, 25, 0xf20000, 0xFFFFFF,
-		"AUTO_ROTATE", &set_auto_rotate};
+	data->button[0] = (t_button){100, 200, 120, 25, 0xFFFFFF, 0,
+		"DRAW_LINE", &set_draw_line, true};
+	data->button[1] = (t_button){100, 240, 120, 25, 0xFFFFFF, 0,
+		"SAME_LEVEL", &same_level_draw, true};
+	data->button[2] = (t_button){100, 280, 120, 25, 0xFFFFFF, 0,
+		"DIFF_LEVEL", &diff_level_draw, true};
+	data->button[3] = (t_button){100, 320, 120, 25, 0xFFFFFF, 0,
+		"SET_CLIP", &set_clipping, true};
+	data->button[4] = (t_button){235, 360, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"FUN_LSD", &fun_lsd, false};
+	data->button[5] = (t_button){370, 360, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"MOTION_BLUR", &set_motion_blur, false};
+	data->button[6] = (t_button){100, 360, 120, 25, 0xFFFFFF, 0,
+		"FULL_CLEAR", &set_full_clear, true};
+	data->button[7] = (t_button){100, 400, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"AUTO_ROTATE", &set_auto_rotate, false};
+	data->button[8] = (t_button){100, 440, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"LIMIT_FPS", &set_limit_fps, false};
+	data->button[9] = (t_button){100, 480, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"DEGRADE", &set_degrade, false};
+	data->button[10] = (t_button){100, 520, 120, 25, 0xFFFFFF, 0xFFFFFF,
+		"ANTIALIASING", &set_antialiasing, false};
 }

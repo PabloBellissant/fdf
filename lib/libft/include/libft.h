@@ -19,6 +19,8 @@
 
 # define LOWER_UPPER_VAL 32
 
+float	ft_fabs(float val);
+
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);

@@ -14,5 +14,11 @@
 
 inline void	put_pixel(t_data *data, int x, int y, const int color)
 {
-	data->addr[y * data->SCREEN_WIDTH + x] = color;
+	data->addr[y * data->WIDTH + x] = color;
+}
+
+inline void	safe_put_pixel(t_data *data, int x, int y, const int color)
+{
+	if (can_put_pos(data, (t_pos){x, y}))
+		data->addr[y * data->WIDTH + x] = color;
 }

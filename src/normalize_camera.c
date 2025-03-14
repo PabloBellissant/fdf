@@ -18,8 +18,7 @@ void	normalize_camera(t_camera *camera)
 	if (camera->pitch < 0)
 		camera->pitch += to_rad(360);
 	camera->pitch = fmod(camera->pitch, to_rad(360));
-	// if (camera->yaw > to_rad(90))
-	// 	camera->yaw = to_rad(90);
-	// else if (camera->yaw < to_rad(-90))
-	// 	camera->yaw = to_rad(-90);
+	if (camera->yaw < 0)
+		camera->yaw += to_rad(360);
+	camera->yaw = fmod(camera->yaw, to_rad(360));
 }

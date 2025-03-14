@@ -18,7 +18,7 @@ t_button	*click_button(t_data data, t_pos pos)
 	t_button	*button;
 
 	i = 0;
-	while (i < BUTTON_NUMBERS)
+	while (i < BUTTON_AMOUNT)
 	{
 		button = &data.button[i];
 		if (pos.x > button->x && pos.x < button->x + button->dim_x)

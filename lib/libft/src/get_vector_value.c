@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	*get_vector_value(t_vector *vector, size_t i)
+inline void	*get_vector_value(t_vector *vector, size_t i)
 {
 	return (vector->data + (i * vector->element_size));
 }

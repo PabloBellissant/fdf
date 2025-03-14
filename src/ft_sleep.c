@@ -19,6 +19,6 @@ void	ft_sleep(int ms)
 	if (ms <= 0)
 		return ;
 	first = get_proc_time();
-	while (ms > get_proc_time() - first)
+	while (ms >= get_proc_time() - first)
 		;
 }

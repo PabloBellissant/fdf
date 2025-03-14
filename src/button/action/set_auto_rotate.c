@@ -17,13 +17,15 @@ void	set_auto_rotate(t_data *data)
 	if (data->param.auto_rotate == false)
 	{
 		data->param.auto_rotate = true;
-		data->button[7].color = 0x39F200;
+		data->button[7].pressed = true;
+		data->button[7].color = 0xFFFFFF;
 		data->button[7].text_color = 0x000000;
 	}
 	else
 	{
 		data->param.auto_rotate = false;
-		data->button[7].color = 0xf20000;
+		data->button[7].pressed = false;
+		data->button[7].color = 0xFFFFFF;
 		data->button[7].text_color = 0xFFFFFF;
 	}
 }

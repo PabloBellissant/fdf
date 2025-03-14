@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-# define BUFFER_SIZE 4096
+# define BUFFER_SIZE 2048
 
 static void	clear_tab(char *tab, size_t size, int t);
 static ssize_t	find_newline(char *str, int replace_by_endline);

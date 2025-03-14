@@ -9,7 +9,9 @@ MLX_DIR = lib/minilibx-linux
 
 SRCS =	$(addprefix $(SRCDIR)/, \
 		open_map.c \
+		convert_hexa.c \
 		init_key.c \
+		init_graphic.c \
 		event_handler/key_is_pressed.c \
 		event_handler/key_press_event.c \
 		event_handler/key_release_event.c \
@@ -17,17 +19,25 @@ SRCS =	$(addprefix $(SRCDIR)/, \
 		event_handler/mouse_press_event.c \
         event_handler/mouse_release_event.c \
         event_handler/mouse_wheel.c \
+        event_handler/mouse_move.c \
+        get_simple_name.c \
+        check_input.c \
         calc_degrade.c \
         calc_matrix.c \
-        rotation_matrix.c \
+        iso_matrix.c \
         init_param.c \
         put_pixel.c \
         get_proc_time.c \
+        draw_gui.c \
         draw_text/draw_string.c \
         draw_text/draw_int.c \
+        draw_text/draw_string_int.c \
         to_rad.c \
         to_degrees.c \
-        draw_line.c \
+        draw_line/draw_line.c \
+        draw_line/bresenham.c \
+        draw_line/bresenham_degrade.c \
+        draw_line/xiaolin_wu.c \
         can_put_pixel.c \
         normalize_camera.c \
         get_fps.c \
@@ -36,6 +46,12 @@ SRCS =	$(addprefix $(SRCDIR)/, \
         set_camera_math.c \
         auto_rotate.c \
         get_delta_time.c \
+        draw_data.c \
+        ft_sleep.c \
+        hook_handler.c \
+        loop.c \
+        calc_view.c \
+        get_point.c \
         button/set_button.c \
         button/draw_button.c \
         button/click_button.c \
@@ -47,6 +63,9 @@ SRCS =	$(addprefix $(SRCDIR)/, \
        	button/action/set_motion_blur.c \
        	button/action/set_full_clear.c \
        	button/action/set_auto_rotate.c \
+       	button/action/set_limit_fps.c \
+       	button/action/set_degrade.c \
+       	button/action/set_antialiasing.c \
 		main.c)
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
@@ -63,7 +82,7 @@ MAKEFLAGS = --no-print-directory
 
 all: $(NAME)
 
-fast: CFLAGS += -O3
+fast: CFLAGS += -Ofast
 fast: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
