@@ -16,8 +16,8 @@ void	auto_rotate(t_data *data)
 {
 	if (data->param.auto_rotate == true)
 	{
-		data->camera.pitch += (float)1 / 3000 * data->delta_time;
-		data->camera.yaw -= (float)1 / 10000 * data->delta_time;
+		data->camera.pitch += (float)1 / 1000 * data->delta_time;
+		data->camera.yaw -= (float)1 / 30000 * data->delta_time;
 		normalize_camera(&data->camera);
 		set_camera_math(&data->camera);
 	}

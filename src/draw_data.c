@@ -19,9 +19,6 @@ static void	draw_map_info(t_data data, int x, int start_y);
 
 void	draw_data(t_data *data)
 {
-	int			width;
-
-	width = data->WIDTH;
 	draw_info(*data, 120, 725);
 	draw_camera_info(*data, 350, 725);
 	draw_map_info(*data, 350, 875);
@@ -31,7 +28,10 @@ static void	draw_info(t_data data, int x, int start_y)
 {
 	char	*map_name;
 
-	map_name = get_simple_name(data.map_list.map_list[data.map_list.actual]);
+	if (data.map_list.actual != -1)
+		map_name = get_name(data.map_list.map_list[data.map_list.actual]);
+	else
+		map_name = ft_strdup("ERROR");
 	if (data.param.limit_fps == true && data.info.fps > 61)
 		data.info.fps = 60;
 	draw_string(data, (t_pos){x - 5, start_y - 5}, "<Info>", 0xFFFFFF);

@@ -40,21 +40,13 @@ void	draw_edge_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color)
 	while (x < pos_b.x)
 	{
 		put_pixel(data, x, y, color);
+		put_pixel(data, x, pos_b.y, color);
 		++x;
 	}
 	while (y < pos_b.y)
 	{
 		put_pixel(data, x, y, color);
+		put_pixel(data, pos_a.x, y, color);
 		++y;
-	}
-	while (x > pos_a.x)
-	{
-		put_pixel(data, x, y, color);
-		--x;
-	}
-	while (y > pos_a.y)
-	{
-		put_pixel(data, x, y, color);
-		--y;
 	}
 }

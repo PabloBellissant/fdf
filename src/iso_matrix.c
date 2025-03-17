@@ -12,18 +12,15 @@
 
 #include "fdf.h"
 
-void	iso_matrix(t_point *p, const t_camera camera)
+void iso_matrix(t_point *p, const t_camera camera)
 {
-	int	x;
-	int	y;
-	int	z;
+	int x;
+	int z;
 
 	x = p->x_view;
 	z = p->z_view;
 	p->x_view = (x * camera.cospitch) + (z * -camera.sinpitch);
 	p->z_view = (x * camera.sinpitch) + (z * camera.cospitch);
-	y = p->y_view;
-	z = p->z_view;
-	p->y_view = (y * camera.cosyaw) + (z * camera.sinyaw);
-	p->z_view = (y * -camera.sinyaw) + (z * camera.cosyaw);
+	p->y_view = (p->y_view * camera.cosyaw) + (p->z_view * camera.sinyaw);
+	p->z_view = (p->z_view * camera.cosyaw) - (p->y_view * camera.sinyaw);
 }

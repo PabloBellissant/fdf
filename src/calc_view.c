@@ -11,14 +11,15 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-
 void	calc_view(t_vector *map, t_data *data)
 {
 	size_t	i;
 	t_point	*point;
+	size_t	num_element;
 
 	i = 0;
-	while (i < map->num_elements)
+	num_element = map->num_elements;
+	while (i < num_element)
 	{
 		point = (t_point *)get_vector_value(map, i);
 		point->x_view = point->x * data->map_data.spacing + data->map_data.x;

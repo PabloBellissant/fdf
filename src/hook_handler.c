@@ -23,7 +23,6 @@ void	hook_handler(t_data *data)
 	mlx_hook(win, KeyRelease, KeyReleaseMask, key_release, data);
 	mlx_hook(win, ButtonPress, ButtonPressMask, mouse_press, data);
 	mlx_hook(win, ButtonRelease, ButtonReleaseMask, mouse_release, data);
-	mlx_hook(win, MotionNotify, PointerMotionMask, mouse_move, data);
 	mlx_loop_hook(data->mlx, loop, data);
 	mlx_loop(data->mlx);
 }

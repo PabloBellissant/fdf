@@ -133,20 +133,18 @@ static char	*secure_strjoin(char *s1, char *s2)
 
 	s1len = secure_strlen(s1);
 	s2len = secure_strlen(s2);
-	i = 0;
 	newstr = malloc(sizeof(char) * (s1len + s2len + 1));
 	if (!newstr)
+	{
+		free((char *)s1);
 		return (NULL);
-	while (i < s1len)
-	{
-		newstr[i] = s1[i];
-		i += 1;
 	}
-	while (i < s1len + s2len)
-	{
-		newstr[i] = s2[i - s1len];
-		i += 1;
-	}
-	newstr[i] = 0;
+	i = 0;
+	while (i++ < s1len)
+		newstr[i - 1] = s1[i - 1];
+	while (i++ <= s1len + s2len)
+		newstr[i - 2] = s2[i - 2 - s1len];
+	newstr[i - 2] = 0;
+	free((char *)s1);
 	return (newstr);
 }

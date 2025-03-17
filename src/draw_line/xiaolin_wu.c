@@ -58,13 +58,13 @@ void	xiaolin_wu(t_data *data, t_point a, t_point b, int color)
 	steep = ft_fabs(b.y_view - a.y_view) > ft_fabs(b.x_view - a.x_view);
 	if (steep)
 	{
-		swap_int(&a.x_view, &a.y_view);
-		swap_int(&b.x_view, &b.y_view);
+		swap_float(&a.x_view, &a.y_view);
+		swap_float(&b.x_view, &b.y_view);
 	}
 	if (a.x_view > b.x_view)
 	{
-		swap_int(&a.x_view, &b.x_view);
-		swap_int(&a.y_view, &b.y_view);
+		swap_float(&a.x_view, &b.x_view);
+		swap_float(&a.y_view, &b.y_view);
 	}
 	dx = b.x_view - a.x_view;
 	dy = b.y_view - a.y_view;

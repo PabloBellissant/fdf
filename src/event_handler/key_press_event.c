@@ -16,14 +16,14 @@
 int	key_press(const int keycode, t_data *data)
 {
 	static const KEY_TYPE	key_map[] = {XK_w, XK_a, XK_s, XK_d,
-		XK_Up, XK_Left, XK_Down, XK_Right};
+		XK_Up, XK_Left, XK_Down, XK_Right, XK_Escape};
 	bool					*value[] = {&data->input.w, &data->input.a,
 		&data->input.s, &data->input.d, &data->input.up, &data->input.left,
-		&data->input.down, &data->input.right};
+		&data->input.down, &data->input.right, &data->input.escape};
 	size_t	i;
 
 	i = 0;
-	while (i < 8)
+	while (i < 9)
 	{
 		if (key_map[i] == keycode)
 		{

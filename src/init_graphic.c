@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "mlx.h"
 #include "fdf.h"
 
@@ -21,10 +22,19 @@ int	init_graphic(t_data *data)
 	mlx_get_screen_size(data->mlx, &data->WIDTH, &data->HEIGHT);
 	data->win = mlx_new_window(data->mlx, data->WIDTH, data->HEIGHT, "FDF");
 	if (data->win == NULL)
+	{
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
 		return (-1);
+	}
 	data->img = mlx_new_image(data->mlx, data->WIDTH, data->HEIGHT);
 	if (data->img == NULL)
+	{
+		mlx_destroy_window(data->mlx, data->win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
 		return (-1);
+	}
 	data->addr = (int *)mlx_get_data_addr(data->img, &data->bits_per_pixel,
 			&data->line_length, &data->endian);
 	mlx_set_font(data->mlx, data->win, FONT);

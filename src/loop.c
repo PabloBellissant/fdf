@@ -15,49 +15,22 @@
 
 int	loop(t_data *data)
 {
+	size_t	x;
+	
 	data->info.fps = get_fps();
 	++data->info.frames_generated;
 	check_input(data);
 	clear_window(data);
 	data->map_data.x = -((data->map_data.size_x >> 1) * data->map_data.spacing);
 	data->map_data.y = -((data->map_data.size_y >> 1) * data->map_data.spacing);
-	size_t	i = 0;
-	while (i < data->map.num_elements)
+	x = 0;
+	while (x < data->map.num_elements)
 	{
-		t_vector *line = get_vector_value(&data->map, i);
+		t_vector *line = get_vector_value(&data->map, x);
 		calc_view(line, data);
-		++i;
+		++x;
 	}
-
-	t_point	*point;
-	t_point	*temp;
-	int	x;
-	int	y;
-	y = 0;
-	t_vector	*line;
-	while ((size_t) y < data->map.num_elements)
-	{
-		line = get_vector_value(&data->map, y);
-		x = 0;
-		while ((size_t) x < line->num_elements)
-		{
-			point = get_point(data, x, y);
-			if (point && (size_t) x < line->num_elements - 1)
-			{
-				temp = get_point(data, x + 1, y);
-				if (temp && ((data->param.draw_diff_level_line == true && point->z != temp->z) || (data->param.draw_same_level_line == true && point->z == temp->z)))
-					draw_line(data, *point, *temp);
-			}
-			if (point && (size_t) y < data->map.num_elements - 1)
-			{
-				temp = get_point(data, x, y + 1);
-				if (temp && ((data->param.draw_diff_level_line == true && point->z != temp->z) || (data->param.draw_same_level_line == true && point->z == temp->z)))
-					draw_line(data, *point, *temp);
-			}
-			++x;
-		}
-		++y;
-	}
+	draw_map(data);
 	auto_rotate(data);
 	data->delta_time = get_delta_time();
 	if (data->param.limit_fps == true)

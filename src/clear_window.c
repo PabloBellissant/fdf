@@ -19,7 +19,7 @@ static void	*screen_memset(int *s, int color, size_t n);
 void	clear_window(t_data *data)
 {
 	if (data->param.full_clear == true)
-		screen_memset(data->addr, 0x181818, data->HEIGHT * data->line_length);
+		screen_memset(data->addr, BG_COLOR, data->HEIGHT * data->line_length);
 	else if (data->param.fun_lsd == true)
 		lsd_clear(data->addr, data->HEIGHT * data->line_length);
 	else if (data->param.motion_blur == true)
@@ -68,23 +68,25 @@ static void	*screen_memset(int *s, int color, size_t n)
 {
 	size_t	i;
 	size_t	blocks;
+	size_t	i_time_8;
 
 	n /= 4;
 	blocks = n / 8;
 	i = 0;
 	while (i < blocks)
 	{
-		s[i * 8] = color;
-		s[i * 8 + 1] = color;
-		s[i * 8 + 2] = color;
-		s[i * 8 + 3] = color;
-		s[i * 8 + 4] = color;
-		s[i * 8 + 5] = color;
-		s[i * 8 + 6] = color;
-		s[i * 8 + 7] = color;
+		i_time_8 = i * 8;
+		s[i_time_8] = color;
+		s[i_time_8 + 1] = color;
+		s[i_time_8 + 2] = color;
+		s[i_time_8 + 3] = color;
+		s[i_time_8 + 4] = color;
+		s[i_time_8 + 5] = color;
+		s[i_time_8 + 6] = color;
+		s[i_time_8 + 7] = color;
 		i++;
 	}
-	i *= 8;
+	i = i_time_8;
 	while (i < n)
 		s[i++] = color;
 	return (s);

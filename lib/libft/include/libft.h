@@ -59,6 +59,7 @@ void	ft_putnbr_fd(int n, int fd);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	swap_int(int *val1, int *val2);
+void	swap_float(float *val1, float *val2);
 
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);

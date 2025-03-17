@@ -37,6 +37,7 @@ int	open_map(t_data *data, int fd)
 		line = get_next_line(fd);
 		++line_num;
 	}
+	free(line);
 	data->map_data.size_x = line_len;
 	data->map_data.size_y = line_num;
 	return (0);
@@ -44,45 +45,49 @@ int	open_map(t_data *data, int fd)
 
 char	*get_color_hexa(char *str)
 {
+	size_t	i;
+
 	if (!str)
 		return (NULL);
-	while (*str && *str != ' ' && *str != ',')
-		++str;
-	if (*str != ',')
+	i = 0;
+	while (str[i] && str[i] != ' ' && str[i] != ',')
+		++i;
+	if (str[i] != ',')
 		return (NULL);
-	++str;
-	if (*str == '0' && *(str + 1) == 'x')
-		return (str + 2);
+	++i;
+	if (str[i] == '0' && str[i + 1] == 'x')
+		return (str + i + 2);
 	return (NULL);
 }
 
 static int	set_line_on_vector(char *line, t_vector *map, size_t line_num)
 {
-	t_vector	*vec;
+	t_vector	vec;
 	t_point		point;
 	char		**splited;
 	size_t		i;
 
 	splited = ft_split(line, ' ');
-	vec = malloc(sizeof(t_vector));
-	if (vector_init(vec, sizeof(t_point)) == -1)
+	if (splited == NULL)
+		return (-1);
+	if (vector_init(&vec, sizeof(t_point)) == -1)
 	{
 		free_tab(splited);
-		return (0);
+		return (-1);
 	}
 	i = 0;
 	while (splited[i])
 	{
 		if (*(splited[i]) != '\n')
 		{
-			point.x = i;
-			point.y = line_num;
-			point.z = ft_atoi(splited[i]);
+			point = (t_point) {.x = i, .y = line_num, .z = ft_atoi(splited[i])};
 			point.color.color = convert_hexa(get_color_hexa(splited[i] + 1));
-			vector_add(vec, &point);
+			vector_add(&vec, &point);
 		}
+		free(splited[i]);
 		++i;
 	}
-	vector_add(map, vec);
+	free(splited);
+	vector_add(map, &vec);
 	return (i);
 }
