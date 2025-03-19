@@ -12,10 +12,10 @@
 
 #include "fdf.h"
 
-void iso_matrix(t_point *p, const t_camera camera)
+void	iso_matrix(t_point *p, const t_camera camera)
 {
-	int x;
-	int z;
+	int	x;
+	int	z;
 
 	x = p->x_view;
 	z = p->z_view;

@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-# define L_GRAY 0x292929
+#define L_GRAY 0x292929
 
 void	draw_buttons(t_data *data)
 {
@@ -24,7 +24,7 @@ void	draw_buttons(t_data *data)
 	{
 		b = data->button[i];
 		if (can_put_rectangle(data, (t_pos){b.x, b.y},
-				(t_pos){b.x + b.dim_x, b.y + b.dim_y}) == true)
+			(t_pos){b.x + b.dim_x, b.y + b.dim_y}) == true)
 		{
 			if (b.pressed == true)
 				draw_full_rectangle(data, (t_pos){b.x, b.y}, (t_pos){

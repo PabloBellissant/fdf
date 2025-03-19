@@ -12,14 +12,14 @@
 
 #include <stddef.h>
 #include <X11/keysym.h>
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 bool	mouse_is_pressed(const KEY_TYPE button, const t_data data)
 {
 	static const KEY_TYPE	key_map[] = {1, 2, 3};
 	const bool				value[] = {data.mouse.left_click,
 		data.mouse.middle_click, data.mouse.right_click};
-	size_t	i;
+	size_t					i;
 
 	i = 0;
 	while (i < 3)

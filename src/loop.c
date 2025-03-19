@@ -15,18 +15,20 @@
 
 int	loop(t_data *data)
 {
-	size_t	x;
-	
+	size_t		x;
+	t_vector	*line;
+
 	data->info.fps = get_fps();
 	++data->info.frames_generated;
-	check_input(data);
+	if (check_input(data) == -1)
+		mlx_loop_end(data->mlx);
 	clear_window(data);
 	data->map_data.x = -((data->map_data.size_x >> 1) * data->map_data.spacing);
 	data->map_data.y = -((data->map_data.size_y >> 1) * data->map_data.spacing);
 	x = 0;
 	while (x < data->map.num_elements)
 	{
-		t_vector *line = get_vector_value(&data->map, x);
+		line = get_vector_value(&data->map, x);
 		calc_view(line, data);
 		++x;
 	}

@@ -21,9 +21,13 @@
 # define HEIGHT screen.height
 
 # define BG_COLOR 0x181818
+# define WHITE 0xFFFFFF
+# define BLACK 0x000000
+
+# define INFILE argv[1]
 
 # define BUTTON_AMOUNT 11//16
-# define MAPS_AMOUNT 39
+# define MAPS_AMOUNT 31
 # define FONT "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16"
 
 # define KEY_TYPE int
@@ -49,6 +53,7 @@ typedef struct s_point
 	float	x_view;
 	float	y_view;
 	float	z_view;
+	bool	is_pressed;
 	int		w;
 	t_color	color;
 }	t_point;
@@ -58,6 +63,12 @@ typedef struct s_pos
 	int		x;
 	int		y;
 }	t_pos;
+
+typedef struct s_pos_double
+{
+	double		x;
+	double		y;
+}	t_pos_double;
 
 typedef struct s_map_list
 {
@@ -92,6 +103,7 @@ typedef struct s_map
 	float	spacing;
 	int		size_x;
 	int		size_y;
+	float	z_multiple;
 }	t_map;
 
 typedef struct s_param
@@ -108,14 +120,11 @@ typedef struct s_param
 	bool	antialiasing;
 	bool	filled;
 	bool	limit_fps;
+	bool	have_points_select;
 }	t_param;
 
 typedef struct s_input_map
 {
-	bool	w;
-	bool	a;
-	bool	s;
-	bool	d;
 	bool	up;
 	bool	left;
 	bool	down;
@@ -123,15 +132,24 @@ typedef struct s_input_map
 	bool	escape;
 }	t_input_map;
 
+typedef struct	s_select_zone
+{
+	int		start_x;
+	int		start_y;
+	int		end_x;
+	int		end_y;
+}	t_select_zone;
+
 typedef struct	s_mouse_data
 {
-	bool	left_click;
-	bool	middle_click;
-	bool	right_click;
-	int		old_x;
-	int		old_y;
-	int		x;
-	int		y;
+	bool			left_click;
+	bool			middle_click;
+	bool			right_click;
+	int				old_x;
+	int				old_y;
+	int				x;
+	int				y;
+	t_select_zone	zone;
 }	t_mouse_data;
 
 typedef struct	s_info
@@ -181,6 +199,8 @@ typedef struct s_data
 	int				delta_time;
 } t_data;
 
+bool	cohen_sutherland_clip(t_screen screen, t_point *a, t_point *b);
+void	init_fdf(t_data *data, char *map_in);
 int		open_map(t_data *data, int fd);
 int		convert_hexa(const char *str);
 void	init_key(t_data *data);
@@ -195,8 +215,8 @@ t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
 			, t_data data);
 void	calc_matrix(t_point *p, float m[9]);
 void	iso_matrix(t_point *p, const t_camera camera);
-void	perspective_matrix(t_point *p, const t_camera camera);
 void	draw_map(t_data *data);
+void	draw_circle(t_data *data, int xc, int yc, int r, int color);
 
 void	init_param(t_data *data);
 void	put_pixel(t_data *data, int x, int y, const int color);
@@ -208,8 +228,9 @@ void	draw_int(const t_data data, const int x, const int y, int value);
 void	draw_string_int(const t_data data, t_pos pos, char *str, int value);
 float	to_rad(float degrees);
 float	to_degrees(float radian);
-void	check_input(t_data *data);
+int		check_input(t_data *data);
 void	isometric_projection(t_point *point, const t_camera camera);
+bool	*get_key(t_data *data, int value);
 bool	can_put_pixel(const t_data *data, const t_point point_a);
 bool	can_put_pos(const t_data *data, const t_pos pos);
 bool	can_put_rectangle(const t_data *data, t_pos pos_a, t_pos pos_b);
@@ -226,12 +247,15 @@ void	ft_sleep(int ms);
 void	hook_handler(t_data *data);
 int		loop(t_data *data);
 void	calc_view(t_vector *map, t_data *data);
-t_point	*get_point(t_data *data, int x, int y);
+t_point	*get_point(t_data *data, size_t x, size_t y);
 int		init_graphic(t_data *data);
 char	*get_name(char *str);
 void	free_map(t_vector *map);
+char	**get_map_list();
+void	normalize_value(int *value, int	min, int max);
+void	normalize_float_value(float *value, float max);
 
-void	draw_line(t_data *data, t_point point_a, t_point point_b);
+void	draw(t_data *data, t_point point_a, t_point point_b);
 void	bresenham_h(t_data *data, t_point point_a, t_point point_b, int color);
 void	bresenham_v(t_data *data, t_point point_a, t_point point_b, int color);
 void	bresenham_degrade_h(t_data *data, t_point point_a, t_point point_b);

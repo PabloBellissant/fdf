@@ -11,20 +11,23 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+
 void	calc_view(t_vector *map, t_data *data)
 {
 	size_t	i;
 	t_point	*point;
 	size_t	num_element;
+	t_map	*map_data;
 
+	map_data = &data->map_data;
 	i = 0;
 	num_element = map->num_elements;
 	while (i < num_element)
 	{
 		point = (t_point *)get_vector_value(map, i);
-		point->x_view = point->x * data->map_data.spacing + data->map_data.x;
-		point->y_view = -point->z * data->map_data.spacing;
-		point->z_view = point->y * data->map_data.spacing + data->map_data.y;
+		point->x_view = point->x * map_data->spacing + map_data->x;
+		point->y_view = -point->z * map_data->spacing * map_data->z_multiple;
+		point->z_view = point->y * map_data->spacing + map_data->y;
 		iso_matrix(point, data->camera);
 		point->x_view += data->camera.x;
 		point->y_view += data->camera.y;

@@ -23,7 +23,10 @@ ssize_t	get_proc_time(void)
 
 	fd = open("/proc/self/sched", O_RDONLY);
 	if (fd == -1 || read(fd, tab, 200) == -1)
+	{
+		close(fd);
 		return (-1);
+	}
 	i = 140;
 	while (ft_isdigit(tab[i]) == 0)
 		++i;

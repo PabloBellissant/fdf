@@ -19,6 +19,6 @@ inline void	put_pixel(t_data *data, int x, int y, const int color)
 
 inline void	safe_put_pixel(t_data *data, int x, int y, const int color)
 {
-	if (can_put_pos(data, (t_pos){x, y}))
+	if (can_put_pos(data, (t_pos){x, y}) == true)
 		data->addr[y * data->WIDTH + x] = color;
 }

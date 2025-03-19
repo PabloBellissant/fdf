@@ -38,5 +38,7 @@ int	init_graphic(t_data *data)
 	data->addr = (int *)mlx_get_data_addr(data->img, &data->bits_per_pixel,
 			&data->line_length, &data->endian);
 	mlx_set_font(data->mlx, data->win, FONT);
+	data->camera.x = data->WIDTH / 2 + 295;
+	data->camera.y = data->HEIGHT / 2;
 	return (0);
 }

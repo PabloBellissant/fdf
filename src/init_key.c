@@ -14,10 +14,6 @@
 
 void	init_key(t_data *data)
 {
-	data->input.w = false;
-	data->input.a = false;
-	data->input.s = false;
-	data->input.d = false;
 	data->input.up = false;
 	data->input.left = false;
 	data->input.down = false;

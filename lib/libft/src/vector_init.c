@@ -16,9 +16,9 @@
 int	vector_init(t_vector *vector, size_t element_size)
 {
 	vector->element_size = element_size;
-	vector->max_elements = 50;
+	vector->max_elements = 100;
 	vector->num_elements = 0;
-	vector->data = malloc(element_size * 50);
+	vector->data = malloc(element_size * 100);
 	if (vector->data == NULL)
 		return (-1);
 	return (0);

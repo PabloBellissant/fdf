@@ -12,14 +12,14 @@
 
 #include "fdf.h"
 
-inline t_point	*get_point(t_data *data, int x, int y)
+inline t_point	*get_point(t_data *data, size_t x, size_t y)
 {
 	t_vector	*line;
 
-	if ((size_t) y >= data->map.num_elements)
+	if (y >= data->map.num_elements)
 		return (NULL);
 	line = get_vector_value(&data->map, y);
-	if ((size_t) x >= line->num_elements)
+	if (x >= line->num_elements)
 		return (NULL);
 	return (get_vector_value(line, x));
 }

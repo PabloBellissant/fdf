@@ -26,9 +26,6 @@ void	init_param(t_data *data)
 	data->param.degrade = false;
 	data->param.antialiasing = false;
 	data->param.filled = false;
-	data->param.z_buffering = false;
-	data->param.show_gui = true;
-	data->param.show_info = true;
 	data->info.frames_generated = 0;
 	data->info.fps = 0;
 }

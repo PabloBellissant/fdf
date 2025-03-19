@@ -17,7 +17,8 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
        ft_strndup.c ft_strcmp.c ft_str_is_digit.c ft_swap_int.c ft_max.c \
        vector_add.c vector_init.c ft_tab_len.c ft_getintlen.c is_above_int.c \
        get_vector_value.c ft_abs.c ft_gap.c ft_min.c ft_strsjoin.c \
-       get_next_line.c av.c ft_fabs.c ft_swap_float.c
+       get_next_line.c av.c ft_fabs.c ft_swap_float.c free_vector.c \
+       ft_strtok.c
 
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
 
@@ -30,9 +31,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
-
-fast: CFLAGS += -O3
-fast: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)

@@ -42,22 +42,18 @@ static void	set_mouse(t_data *data, int x, int y)
 {
 	data->mouse.x = x;
 	data->mouse.y = y;
-	data->mouse.old_x = data->mouse.x;
-	data->mouse.old_y = data->mouse.y;
+	data->mouse.old_x = x;
+	data->mouse.old_y = y;
+	data->mouse.zone.start_x = x;
+	data->mouse.zone.start_y = y;
 }
 
 static void	update_click_map(const int button, t_data *data)
 {
-	static const KEY_TYPE	key_map[] = {1, 2, 3};
-	bool					*value[] = {&data->mouse.left_click,
-		&data->mouse.middle_click, &data->mouse.right_click};
-	size_t	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (key_map[i] == button)
-			(*value)[i] = true;
-		++i;
-	}
+	if (button == 1)
+		data->mouse.left_click = true;
+	else if (button == 2)
+		data->mouse.middle_click = true;
+	else if (button == 3)
+		data->mouse.right_click = true;
 }

@@ -16,12 +16,11 @@
 
 bool	key_is_pressed(const KEY_TYPE key, const t_data data)
 {
-	static const KEY_TYPE	key_map[] = {XK_w, XK_a, XK_s, XK_d,
-		XK_Up, XK_Left, XK_Down, XK_Right, XK_Escape};
-	const bool				value[] = {data.input.w, data.input.a, data.input.s,
-		data.input.d, data.input.up, data.input.left, data.input.down,
-		data.input.right, data.input.escape};
-	int					i;
+	static const KEY_TYPE	key_map[] = {XK_Up, XK_Left,
+		XK_Down, XK_Right, XK_Escape};
+	const bool				value[] = {data.input.up, data.input.left,
+		data.input.down, data.input.right, data.input.escape};
+	int						i;
 
 	i = 0;
 	while (i < 9)

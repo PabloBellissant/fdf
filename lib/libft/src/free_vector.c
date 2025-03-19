@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normalize_camera.c                                 :+:      :+:    :+:   */
+/*   free_vector.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 00:05:17 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 00:05:19 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/17 07:10:58 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/17 07:11:02 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-#include "fdf.h"
+#include <stdlib.h>
+#include "libft.h"
 
-void	normalize_camera(t_camera *camera)
+void	free_vector(t_vector *vector)
 {
-	normalize_float_value(&camera->pitch, M_PI * 2);
-	normalize_float_value(&camera->yaw, M_PI * 2);
+	vector->max_elements = 0;
+	vector->num_elements = 0;
+	vector->element_size = 0;
+	free(vector->data);
 }

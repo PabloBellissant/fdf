@@ -74,6 +74,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*get_next_line(int fd);
+char    *ft_strtok(char *s, const char *delim);
 
 typedef struct s_list
 {
@@ -105,6 +106,7 @@ typedef struct s_vector
 int		vector_add(t_vector *vector, void *element);
 int		vector_init(t_vector *vector, size_t element_size);
 void	*get_vector_value(t_vector *vector, size_t i);
+void	free_vector(t_vector *vector);
 
 bool	is_above_int(char *value_in_str);
 

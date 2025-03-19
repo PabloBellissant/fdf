@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normalize_camera.c                                 :+:      :+:    :+:   */
+/*   get_key.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 00:05:17 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 00:05:19 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/17 08:41:14 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/17 08:41:16 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include "fdf.h"
 
-void	normalize_camera(t_camera *camera)
+bool	*get_key(t_data *data, int value)
 {
-	normalize_float_value(&camera->pitch, M_PI * 2);
-	normalize_float_value(&camera->yaw, M_PI * 2);
+	bool		*keys_list[5];
+	t_input_map	*input;
+
+	input = &data->input;
+	keys_list[0] = &input->up;
+	keys_list[1] = &input->left;
+	keys_list[2] = &input->down;
+	keys_list[3] = &input->right;
+	keys_list[4] = &input->escape;
+	return (keys_list[value]);
 }

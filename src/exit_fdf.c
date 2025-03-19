@@ -26,7 +26,6 @@ void	exit_fdf(t_data *data)
 	free(data->mlx);
 	free_map(&data->map);
 	free_tab(data->map_list.map_list);
-	exit(0);
 }
 
 void	free_map(t_vector *map)
@@ -35,11 +34,13 @@ void	free_map(t_vector *map)
 	t_vector	*line;
 
 	i = 0;
+	if (!map || !map->data)
+		return ;
 	while (i < map->num_elements)
 	{
 		line = get_vector_value(map, i);
-		free(line->data);
+		free_vector(line);
 		++i;
 	}
-	free(map->data);
+	free_vector(map);
 }

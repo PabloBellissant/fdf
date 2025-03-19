@@ -73,6 +73,7 @@ static void	*screen_memset(int *s, int color, size_t n)
 	n /= 4;
 	blocks = n / 8;
 	i = 0;
+	i_time_8 = i * 8;
 	while (i < blocks)
 	{
 		i_time_8 = i * 8;
@@ -84,7 +85,7 @@ static void	*screen_memset(int *s, int color, size_t n)
 		s[i_time_8 + 5] = color;
 		s[i_time_8 + 6] = color;
 		s[i_time_8 + 7] = color;
-		i++;
+		++i;
 	}
 	i = i_time_8;
 	while (i < n)

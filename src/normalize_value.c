@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normalize_camera.c                                 :+:      :+:    :+:   */
+/*   normalize_value.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 00:05:17 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 00:05:19 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/17 08:25:05 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/17 08:25:06 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-#include "fdf.h"
-
-void	normalize_camera(t_camera *camera)
+void	normalize_value(int *value, int	min, int max)
 {
-	normalize_float_value(&camera->pitch, M_PI * 2);
-	normalize_float_value(&camera->yaw, M_PI * 2);
+	if (*value >= max)
+		*value = min;
+	else if (*value < min)
+		*value += max;
+}
+
+void	normalize_float_value(float *value, float max)
+{
+	if (*value >= max)
+		*value = 0;
+	else if (*value < 0)
+		*value += max;
 }

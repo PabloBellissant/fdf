@@ -10,58 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "fdf.h"
 
 #include <fcntl.h>
 #include <unistd.h>
 
-static int	find_actual_map(char *map_name, char **map_list);
-#include <stdlib.h>
+static int	check_command(int argc, char **argv);
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		map_fd;
-	int		map_list_fd;
-	char	map_list[5000];
 
-	(void) argc;
-	ft_bzero(&data, sizeof(data));
-	ft_bzero(map_list, 5000);
-	if (init_graphic(&data) == -1)
+	if (check_command(argc, argv) == -1)
 		return (-1);
-	map_fd = open(argv[1], O_RDONLY);
+	ft_bzero(&data, sizeof(data));
+	map_fd = open(INFILE, O_RDONLY);
 	if (map_fd == -1)
-		exit_fdf(&data);
-	init_key(&data);
-	init_param(&data);
-	set_button(&data);
-	data.camera.x = data.WIDTH / 2;
-	data.camera.y = data.HEIGHT / 2;
-	data.camera.pitch = to_rad(45);
-	data.camera.yaw = to_rad(35.264);
-	open_map(&data, map_fd);
-	close(map_fd);
-	set_camera_math(&data.camera);
-	map_list_fd = open("maps/maps_name", O_RDONLY);
-	read(map_list_fd, map_list, 5000);
-	data.map_list.map_list = ft_split(map_list, '\n');
-	data.map_list.actual = find_actual_map(argv[1], data.map_list.map_list);
-	data.map_data.spacing = 5;
+	{
+		ft_putstr_fd("Error : File does not exist\n", 2);
+		return (1);
+	}
+	if (open_map(&data, map_fd) == -1 || close(map_fd) == -1
+		|| init_graphic(&data) == -1)
+	{
+		free_map(&data.map);
+		return (1);
+	}
+	init_fdf(&data, INFILE);
 	hook_handler(&data);
+	exit_fdf(&data);
 	return (0);
 }
 
-static int	find_actual_map(char *map_name, char **map_list)
+static int	check_command(int argc, char **argv)
 {
-	size_t	i;
+	size_t	arg_len;
 
-	i = 0;
-	while (map_list[i] != NULL)
+	if (argc != 2)
 	{
-		if (ft_strcmp(map_name, map_list[i]) == 0)
-			return (i);
-		++i;
+		ft_putstr_fd("Usage : ./fdf [map_path].fdf\n", 2);
+		return (-1);
 	}
-	return (-1);
+	arg_len = ft_strlen(INFILE);
+	if (arg_len <= 4 || ft_strcmp(INFILE + arg_len - 4, ".fdf"))
+	{
+		ft_putstr_fd("Error : argument must end with '.fdf'\n", 2);
+		return (-1);
+	}
+	return (0);
 }

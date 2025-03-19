@@ -19,9 +19,9 @@ static void	draw_map_info(t_data data, int x, int start_y);
 
 void	draw_data(t_data *data)
 {
-	draw_info(*data, 120, 725);
-	draw_camera_info(*data, 350, 725);
-	draw_map_info(*data, 350, 875);
+	draw_info(*data, 110, 660);
+	draw_camera_info(*data, 350, 660);
+	draw_map_info(*data, 350, 810);
 }
 
 static void	draw_info(t_data data, int x, int start_y)
@@ -79,4 +79,6 @@ static void	draw_map_info(t_data data, int x, int start_y)
 		data.camera.x);
 	draw_string_int(data, (t_pos){x, start_y + 125}, "PosY: ",
 		data.camera.y);
+	draw_string_int(data, (t_pos){x, start_y + 150}, "Z_ratio: ",
+		(int)data.map_data.z_multiple);
 }
