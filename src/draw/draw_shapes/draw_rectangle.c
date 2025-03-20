@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../include/fdf.h"
 
-void	draw_full_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color)
+void	draw_fill_rectangle(t_data *data, t_pos pos_a, t_pos pos_b, int color)
 {
 	int	x;
 	int	y;

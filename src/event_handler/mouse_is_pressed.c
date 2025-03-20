@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include <X11/keysym.h>
 #include "fdf.h"
 
 bool	mouse_is_pressed(const KEY_TYPE button, const t_data data)

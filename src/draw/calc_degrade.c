@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "fdf.h"
+#include "../../lib/libft/include/libft.h"
+#include "../../include/fdf.h"
 
 t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod,
 						t_data data)

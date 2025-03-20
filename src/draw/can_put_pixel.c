@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../include/fdf.h"
 
-bool	can_put_pixel(const t_data *data, const t_point point_a)
+bool	can_put_pixel(const t_data *data, const t_point point)
 {
-	if (point_a.x_view < 0)
+	if (point.x_view < 0)
 		return (false);
-	if (point_a.y_view < 0)
+	if (point.y_view < 0)
 		return (false);
-	if (point_a.x_view >= data->screen.w)
+	if (point.x_view >= data->screen.w)
 		return (false);
-	if (point_a.y_view >= data->screen.h)
+	if (point.y_view >= data->screen.h)
 		return (false);
 	return (true);
 }

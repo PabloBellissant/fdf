@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../include/fdf.h"
 
 static void	blur_clear(void *s, size_t n);
 static void	lsd_clear(void *s, size_t n);

@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_fps.c                                          :+:      :+:    :+:   */
+/*   get_delta_time.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 01:02:41 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 01:02:43 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/12 04:59:52 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 04:59:53 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	get_fps(void)
+size_t	get_delta_time(void)
 {
-	static int	start_time;
-	static int	frame_generated;
-	static int	fps;
+	static int	last_time;
 	int			new_time;
+	int			output;
 
-	if (start_time == 0)
-		start_time = get_proc_time();
-	++frame_generated;
-	new_time = get_proc_time();
-	if (start_time + 1000 < new_time)
-	{
-		fps = frame_generated;
-		frame_generated = 0;
-		start_time = new_time;
-	}
-	return (fps);
+	if (last_time == 0)
+		last_time = get_cpu_time();
+	new_time = get_cpu_time();
+	output = new_time - last_time;
+	last_time = new_time;
+	return (output);
 }

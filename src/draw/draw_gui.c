@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../include/fdf.h"
 
 #define L_GRAY 0x212121
 #define GRAY 0x292929
@@ -23,17 +23,17 @@ void	draw_gui(t_data *data)
 	if (can_put_rectangle(data,
 			(t_pos){0, 0}, (t_pos){590, data->screen.h - 1}))
 	{
-		draw_full_rectangle(data, (t_pos){0, 0},
+		draw_fill_rectangle(data, (t_pos){0, 0},
 			(t_pos){590, data->screen.h - 1}, L_GRAY);
 	}
 	else
 		return ;
 	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}))
-		draw_full_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}, GRAY);
+		draw_fill_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}, GRAY);
 	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}))
 		draw_edge_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}, WHITE);
 	if (can_put_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}))
-		draw_full_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}, GRAY);
+		draw_fill_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}, GRAY);
 	if (can_put_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}))
 		draw_edge_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}, WHITE);
 	if (can_put_rectangle(data, (t_pos){230, 80}, (t_pos){365, 110}))

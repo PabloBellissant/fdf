@@ -27,11 +27,11 @@ void	draw_buttons(t_data *data)
 			(t_pos){b.x + b.dim_x, b.y + b.dim_y}) == true)
 		{
 			if (b.pressed == true)
-				draw_full_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
+				draw_fill_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
 					b.x + b.dim_x, b.y + b.dim_y}, b.color);
 			else
 			{
-				draw_full_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
+				draw_fill_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
 					b.x + b.dim_x, b.y + b.dim_y}, L_GRAY);
 				draw_edge_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
 					b.x + b.dim_x, b.y + b.dim_y}, b.color);

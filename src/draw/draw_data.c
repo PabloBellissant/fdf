@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "fdf.h"
+#include "../../include/fdf.h"
 
 static void	draw_info(t_data data, int x, int start_y);
 static void	draw_camera_info(t_data data, int x, int start_y);

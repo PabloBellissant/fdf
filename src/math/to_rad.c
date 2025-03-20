@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_delta_time.c                                   :+:      :+:    :+:   */
+/*   to_rad.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 04:59:52 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 04:59:53 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/06 23:38:04 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 23:38:07 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#define PI_DIV_180 0.017453293f
 
-int	get_delta_time(void)
+float	to_rad(float degrees)
 {
-	static int	last_time;
-	int			new_time;
-	int			output;
-
-	if (last_time == 0)
-		last_time = get_proc_time();
-	new_time = get_proc_time();
-	output = new_time - last_time;
-	last_time = new_time;
-	return (output);
+	return (degrees * PI_DIV_180);
 }

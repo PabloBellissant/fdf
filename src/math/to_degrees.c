@@ -12,12 +12,6 @@
 
 #define _180_DIV_PI 57.295779513f
 
-/**
- * @brief convert a radian to a degrees.
- * @param degrees The degree to convert.
- * @return the radiant, in float.
- * @author Bellissant Pablo
- */
 float	to_degrees(float radian)
 {
 	return (radian * _180_DIV_PI);

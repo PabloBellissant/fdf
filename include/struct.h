@@ -177,7 +177,7 @@ typedef struct s_data
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
-	int				delta_time;
+	size_t			delta_time;
 	t_pos			clip_data;
 }	t_data;
 

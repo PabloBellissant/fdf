@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   to_rad.c                                           :+:      :+:    :+:   */
+/*   get_proc_time.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 23:38:04 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/06 23:38:07 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/06 03:36:47 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 03:36:48 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define PI_DIV_180 0.017453293f
+#include <stddef.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "libft.h"
 
-/**
- * @brief convert a degree to a radian
- * @param degrees The degree to convert.
- * @return the radiant, in float.
- * @author Bellissant Pablo
- */
-float	to_rad(float degrees)
+ssize_t	get_cpu_time(void)
 {
-	return (degrees * PI_DIV_180);
+	int		fd;
+	char	tab[200];
+	size_t	i;
+
+	fd = open("/proc/self/sched", O_RDONLY);
+	if (fd == -1 || read(fd, tab, 200) == -1)
+	{
+		close(fd);
+		return (-1);
+	}
+	i = 140;
+	while (ft_isdigit(tab[i]) == 0)
+		++i;
+	if (close(fd) == -1)
+		return (-1);
+	return (ft_atoi(tab + i));
 }

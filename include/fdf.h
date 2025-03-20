@@ -6,7 +6,7 @@
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 01:58:11 by pabellis          #+#    #+#             */
-/*   Updated: 2025/02/28 01:58:14 by pabellis         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:34:00 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,62 +19,458 @@
 # include "define.h"
 # include "struct.h"
 
+/**
+ * @brief Main program, initialize all values, and load entered map,
+ * Then call loop.
+ * @param argc The arg count.
+ * @param argv The args.
+ * @author Bellissant Pablo
+ */
+int			main(int argc, char **argv);
+
+/**
+ * @brief Initialize some variables, to properly start fdf.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param map_in The argv[1] of the main, containing input file.
+ * @author Bellissant Pablo
+ */
 void		init_fdf(t_data *data, char *map_in);
+
+/**
+ * @brief Read a map from a fd, and create a vector of vector containing points,
+ * according to the map read.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param fd The file descriptor.
+ * @author Bellissant Pablo
+ */
 int			open_map(t_data *data, int fd);
+
+/**
+ * @brief Convert a value in hexa (base 16), to an integer (base 10).
+ * @param str The string to convert.
+ * @return The result in integer.
+ * @author Bellissant Pablo
+ */
 int			convert_hexa(const char *str);
+
+/**
+ * @brief Initializes all the key_map to false.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		init_key(t_data *data);
+
+/**
+ * @brief Checks if a specific key is pressed.
+ *
+ * @param key The key to check.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return True if the key is pressed, false otherwise.
+ * @author Bellissant Pablo
+ */
 bool		key_is_pressed(const KEY_TYPE key, t_data data);
+
+/**
+ * @brief Handles a key press event by updating the key state.
+ * @param keycode The keycode of the pressed key.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return 0 if the key is found and updated, -1 if the key is not in the map.
+ * @author Bellissant Pablo
+ */
 int			key_press(const KEY_TYPE keycode, t_data *data);
+
+/**
+ * @brief Handles a key release event by updating the key state.
+ * @param keycode The keycode of the released key.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return 0 if the key is found and updated, -1 if the key is not in the map.
+ * @author Bellissant Pablo
+ */
 int			key_release(const KEY_TYPE keycode, t_data *data);
+
+/**
+ * @brief Checks if mouse is clicked.
+ *
+ * @param button The button to check.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return True if the button is pressed, false otherwise.
+ * @author Bellissant Pablo
+ */
 bool		mouse_is_pressed(const KEY_TYPE button, const t_data data);
+
+/**
+ * @brief Handles a mouse press event.
+ * @param button The mouse button that was pressed.
+ * @param x The x-coordinate of the mouse cursor.
+ * @param y The y-coordinate of the mouse cursor.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return 0 if the button is handled, -1 if the button is not recognized.
+ * @author Bellissant Pablo
+ */
 int			mouse_press(const int button, int x, int y, t_data *data);
+
+/**
+ * @brief Handles a mouse release event.
+ *
+ * @param button The mouse button that was pressed.
+ * @param x The x-coordinate of the mouse cursor.
+ * @param y The y-coordinate of the mouse cursor.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return 0 if the button is handled, -1 if the button is not recognized.
+ * @author Bellissant Pablo
+ */
 int			mouse_release(const int button, int x, int y, t_data *data);
+
+/**
+ * @brief Handles mouse wheel events to zoom in or out.
+ * @param button The button associated with the wheel scroll
+ * (4 for scroll up, 5 for scroll down).
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		mouse_wheel(const int button, t_data *data);
+
+/**
+ * @brief Compute a degrade beetween two colors, with a mod.
+ * @param color_a The first color.
+ * @param color_b The second color.
+ * @param mod A value beetween 0 and 1, used as a mod.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 t_color		calc_degrade(const t_color color_a, const t_color color_b,
 				double mod, t_data data);
+
+/**
+ * @brief Compute a point to a 4*4 matrix.
+ * @param p The point to calculate.
+ * @param m the 4*4 matrix
+ * @note The function will compute value p.x_view, p.y_view, p.z_view and p.w.
+ * and put the result in the same variables.
+ * @author Bellissant Pablo
+ */
 void		calc_matrix(t_point *p, float m[16]);
+
+/**
+ * @brief Compute the isometric view.
+ * @param p the point to compute.
+ * @param camera the camera data.
+ * @author Bellissant Pablo
+ */
 void		iso_matrix(t_point *p, const t_camera camera);
-void		perspective_matrix(t_point *point, t_data *data);
+
+/**
+ * @brief Draw the map, points or line depending of params.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		draw_map(t_data *data);
+
+/**
+ * @brief Draws a circle on the screen, using bresenham.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos The position of the circle's center.
+ * @author Bellissant Pablo
+ */
 void		draw_circle(t_data *data, t_pos pos);
 
+/**
+ * @brief Initializes the starting params to true or false.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		init_param(t_data *data);
+
+/**
+ * @brief Puts a pixel on the screen at the specified coordinates
+ * with the given color.
+ * @warning The pixel must exist in the entered range, if you are not
+ * certain that the pixel can be draw here, use safe_put_pixel() instead.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @author Bellissant Pablo
+ */
 void		put_pixel(t_data *data, int x, int y, const int color);
+
+/**
+ * @brief Puts a pixel on the screen at the specified coordinates
+ * with the given color.
+ * @note This function is safe because if the pixel is out of range,
+ * the function simply return.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @author Bellissant Pablo
+ */
 void		safe_put_pixel(t_data *data, int x, int y, const int color);
-ssize_t		get_proc_time(void);
-void		draw_string(const t_data data, t_pos pos, char *str, int color);
+
+/**
+ * @brief Get the actual CPU timestamp, by reading '/proc/self/sched'.
+ * @return The actual cpu time.
+ * @author Bellissant Pablo
+ */
+ssize_t		get_cpu_time(void);
+
+/**
+ * @brief Draws a centered string at the specified position with the
+ * given color.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos The position where the string should be drawn.
+ * @param str The string to be drawn.
+ * @param color The color of the string.
+ * @author Bellissant Pablo
+ */
 void		draw_center_string(const t_data data, t_pos pos, char *str,
 				int color);
+
+/**
+ * @brief Draw an array on the string.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos the position x and y.
+ * @param str The string to draw.
+ * @param color The color of the string.
+ * @author Bellissant Pablo
+ */
+void		draw_string(const t_data data, t_pos pos, char *str, int color);
+
+/**
+ * @brief Draw an integer on the screen.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param x the position x.
+ * @param y the position y.
+ * @param value the value to draw.
+ * @author Bellissant Pablo
+ */
 void		draw_int(const t_data data, const int x, const int y, int value);
+
+/**
+ * @brief Draw an array on the string, and a value next to it.
+ * @note 'str: value'
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos the position x and y.
+ * @param str The string to draw.
+ * @param value The value to draw.
+ * @author Bellissant Pablo
+ */
 void		draw_string_int(const t_data data, t_pos pos, char *str, int value);
+
+/**
+ * @brief convert a degree to a radian
+ * @param degrees The degree to convert.
+ * @return the radiant, in float.
+ * @author Bellissant Pablo
+ */
 float		to_rad(float degrees);
+
+/**
+ * @brief convert a radian to a degrees.
+ * @param degrees The degree to convert.
+ * @return the radiant, in float.
+ * @author Bellissant Pablo
+ */
 float		to_degrees(float radian);
-void		isometric_projection(t_point *point, const t_camera camera);
+
+/**
+ * @brief Returns a pointer to the state of a specific key.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param value The key index.
+ * @return A pointer to the key state.
+ * @author Bellissant Pablo
+ */
 bool		*get_key(t_data *data, int value);
-bool		can_put_pixel(const t_data *data, const t_point point_a);
+
+/**
+ * @brief Function to know if a point can be draw at certain coordinate.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param point the point to know.
+ * @return True if the point can be drawn, False if not.
+ * @author Bellissant Pablo
+ */
+bool		can_put_pixel(const t_data *data, const t_point point);
+
+/**
+ * @brief Function to know if a pos can be draw at certain coordinate.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos the coordinate x and y.
+ * @return True if the point can be drawn, False if not.
+ * @author Bellissant Pablo
+ */
 bool		can_put_pos(const t_data *data, const t_pos pos);
+
+/**
+ * @brief Function to know if a rectangle can be drawn at given coordinates.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos_a The start of the rectangle.
+ * @param pos_b The end of the rectangle.
+ * @return True if the point can be drawn, False if not.
+ * @author Bellissant Pablo
+ */
 bool		can_put_rectangle(const t_data *data, t_pos pos_a, t_pos pos_b);
+
+/**
+ * @brief Normalize camera, from 0 to pi * 2
+ * @param camera a pointer to the camera data.
+ * @author Bellissant Pablo
+ */
 void		normalize_camera(t_camera *camera);
+
+/**
+ * @brief Get the number of frame per seconds.
+ * @return the fps.
+ * @author Bellissant Pablo
+ */
 int			get_fps(void);
-void		draw_full_rectangle(t_data *data, t_pos pos_a, t_pos pos_b,
+
+/**
+ * @brief Draw a filled rectangle.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos_a The first corner.
+ * @param pos_b The second corner.
+ * @param color The color of the rectangle.
+ * @author Bellissant Pablo
+ */
+void		draw_fill_rectangle(t_data *data, t_pos pos_a, t_pos pos_b,
 				int color);
+
+/**
+ * @brief Draw a clear rectangle (only edges).
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param pos_a The first corner.
+ * @param pos_b The second corner.
+ * @param color The color of the rectangle.
+ * @author Bellissant Pablo
+ */
 void		draw_edge_rectangle(t_data *data, t_pos pos_a, t_pos pos_b,
 				int color);
+
+/**
+ * @brief Function to clear windows, following differents parameters.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		clear_window(t_data *data);
+
+/**
+ * @brief Sets the trigonometric values for the camera's pitch and yaw angles.
+ *
+ * @param camera A pointer to the struct 't_camera'.
+ * @author Bellissant Pablo
+ */
 void		set_camera_math(t_camera *camera);
-int			get_delta_time(void);
+
+/**
+ * @brief Get the time passed since the last frame.
+ * @return the delta time.
+ * @author Bellissant Pablo
+ */
+size_t		get_delta_time(void);
+
+/**
+ * @brief Update the camera pitch and camera yaw if auto_rotate is active.
+ * This function create a rotating effect.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		auto_rotate(t_data *data);
+
+/**
+ * @brief Draws some stuff on the string, like general info, screen info,
+ * camera info or map info.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		draw_data(t_data *data);
-void		ft_sleep(int ms);
+
+/**
+ * @brief Pauses the program for a specified amount of time in milliseconds.
+ * @param ms The duration to sleep in milliseconds.
+ * @author Bellissant Pablo
+ */
+void		ft_sleep(size_t ms);
+
+/**
+ * @brief Sets up event handlers for various window events in mlx.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		hook_handler(t_data *data);
+
+/**
+ * @brief The loop of the program, call at each frames. Main thread.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 int			loop(t_data *data);
+
+/**
+ * @brief Compute the view of each point from a map line, by calling iso_matrix.
+ * @param map The line of the map.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		calc_view(t_vector *map, t_data *data);
+
+/**
+ * @brief Get the point in a map, by x and y.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @param x The pos x.
+ * @param y The pos y.
+ * @return a pointer to the point, NULL if point does not exist.
+ * @author Bellissant Pablo
+ */
 t_point		*get_point(t_data *data, size_t x, size_t y);
+
+/**
+ * @brief Initializes the graphics of the mlx.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @return 0 if initialization is successful, -1 if an error occurs.
+ * @author Bellissant Pablo
+ */
 int			init_graphic(t_data *data);
+
+/**
+ * @brief Remove the path, and the extension of a file name.
+ * @param str The file name
+ * @return The file name without extension and path.
+ * @author Bellissant Pablo
+ */
 char		*get_name(char *str);
+
+/**
+ * @brief Free memory from map.
+ * @param map A pointer to the map.
+ * @author Bellissant Pablo
+ */
 void		free_map(t_vector *map);
+
+/**
+ * @brief Open the file maps/maps_name and fill an array of chars for each
+ * line of maps/maps_name, representing the maps to load.
+ * @return an array of chars, containing all maps name.
+ * @author Bellissant Pablo
+ */
 char		**get_map_list(void);
+
+/**
+ * @brief Normalizes a value to be within a specified range.
+ *
+ * @param value A pointer to the value to normalize.
+ * @param min The minimum value of the range.
+ * @param max The maximum value of the range.
+ * @author Bellissant Pablo
+ */
 void		normalize_value(int *value, int min, int max);
+
+/**
+ * @brief Normalizes a float value to be within a specified range.
+ * @note The 'min' is 0.
+ * @param value A pointer to the value to normalize.
+ * @param max The maximum value of the range.
+ * @author Bellissant Pablo
+ */
 void		normalize_float_value(float *value, float max);
 
 /**
@@ -196,7 +592,7 @@ void		bresenham_degrade_v(t_data *data, t_point point_a, t_point point_b);
  * This function renders a smooth line between two points by calculating
  * pixel intensities based on their coverage.
  *
- * @param data A pointer to the data structure containing pixel information.
+ * @param data A pointer to the struct 'S_DATA'.
  * @param a The starting point of the line.
  * @param b The ending point of the line.
  * @param color The color of the line.
@@ -205,6 +601,11 @@ void		bresenham_degrade_v(t_data *data, t_point point_a, t_point point_b);
 void		xiaolin_wu(t_data *data, t_point point_a, t_point point_b,
 				int color);
 
+/**
+ * @brief Draw the GUI, all buttons, and stuff on the screen.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		draw_gui(t_data *data);
 
 /**
@@ -300,8 +701,8 @@ void		set_full_clear(t_data *data);
 void		set_auto_rotate(t_data *data);
 
 /**
- * @brief Change the state of the option 'linit fps' to True / False
- * Also change the state / color of the 'linit fps' button.
+ * @brief Change the state of the option 'limit fps' to True / False
+ * Also change the state / color of the 'limit fps' button.
  * @param data A pointer to the struct 'S_DATA'.
  * @author Bellissant Pablo
  */
@@ -415,6 +816,11 @@ void		update_point(t_screen screen, t_point *p, t_pos_double pos,
  */
 double		get_intersection(int limit, t_point *a, t_point *b, int swap);
 
+/**
+ * @brief Cleans up resources and free all memory allocated.
+ * @param data A pointer to the struct 'S_DATA'.
+ * @author Bellissant Pablo
+ */
 void		exit_fdf(t_data *data);
 
 #endif

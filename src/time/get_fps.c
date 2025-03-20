@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sleep.c                                         :+:      :+:    :+:   */
+/*   get_fps.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 07:39:14 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/12 07:39:15 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/12 01:02:41 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 01:02:43 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_sleep(int ms)
+int	get_fps(void)
 {
-	int	first;
+	static int	start_time;
+	static int	frame_generated;
+	static int	fps;
+	int			new_time;
 
-	if (ms <= 0)
-		return ;
-	first = get_proc_time();
-	while (ms >= get_proc_time() - first)
-		;
+	if (start_time == 0)
+		start_time = get_cpu_time();
+	++frame_generated;
+	new_time = get_cpu_time();
+	if (start_time + 1000 < new_time)
+	{
+		fps = frame_generated;
+		frame_generated = 0;
+		start_time = new_time;
+	}
+	return (fps);
 }

@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_proc_time.c                                    :+:      :+:    :+:   */
+/*   ft_sleep.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 03:36:47 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/06 03:36:48 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/12 07:39:14 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/12 07:39:15 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include "libft.h"
+#include "fdf.h"
 
-ssize_t	get_proc_time(void)
+void	ft_sleep(size_t ms)
 {
-	int		fd;
-	char	tab[200];
-	size_t	i;
+	ssize_t	first;
 
-	fd = open("/proc/self/sched", O_RDONLY);
-	if (fd == -1 || read(fd, tab, 200) == -1)
-	{
-		close(fd);
-		return (-1);
-	}
-	i = 140;
-	while (ft_isdigit(tab[i]) == 0)
-		++i;
-	if (close(fd) == -1)
-		return (-1);
-	return (ft_atoi(tab + i));
+	if (ms == 0)
+		return ;
+	first = get_cpu_time();
+	while ((ssize_t) ms >= get_cpu_time() - first)
+		;
 }
