@@ -12,40 +12,9 @@
 
 #include "fdf.h"
 
-int	blend_color(int base, int blend, float alpha)
-{
-	t_color	new;
-
-	new.color = 0;
-	new.rgb.r = ((base >> 16) & 0xFF) * (1 - alpha) + ((blend >> 16) & 0xFF) * alpha;
-	new.rgb.g = ((base >> 8) & 0xFF) * (1 - alpha) + ((blend >> 8) & 0xFF) * alpha;
-	new.rgb.b = (base & 0xFF) * (1 - alpha) + (blend & 0xFF) * alpha;
-	return (new.color);
-}
-
-void	draw_xiaolin_wu(t_data *data, int steep,
-		int x, float y, int color)
-{
-	int	y_int;
-	float	frac;
-	int	bg1;
-	int	bg2;
-	int	c1;
-	int	c2;
-
-	y_int = (int)y;
-	frac = y - y_int;
-	bg1 = data->addr[(steep ? x : y_int)
-		* data->WIDTH + (steep ? y_int : x)];
-	bg2 = data->addr[(steep ? x : y_int + 1)
-		* data->WIDTH + (steep ? y_int + 1 : x)];
-	c1 = blend_color(bg1, color, 1 - frac);
-	c2 = blend_color(bg2, color, frac);
-	safe_put_pixel(data, steep ? y_int : x,
-		steep ? x : y_int, c1);
-	safe_put_pixel(data, steep ? y_int + 1 : x,
-		steep ? x : y_int + 1, c2);
-}
+static int	blend(int base, int blend, float alpha);
+static void	draw_xiaolin_wu(t_data *data, int steep,
+				t_pos_double pos, int color);
 
 void	xiaolin_wu(t_data *data, t_point a, t_point b, int color)
 {
@@ -71,5 +40,43 @@ void	xiaolin_wu(t_data *data, t_point a, t_point b, int color)
 	gradient = dy / dx;
 	y = a.y_view + 0.5;
 	while (a.x_view <= b.x_view)
-		draw_xiaolin_wu(data, steep, a.x_view++, y += gradient, color);
+		draw_xiaolin_wu(data, steep,
+			(t_pos_double){a.x_view++, y += gradient}, color);
+}
+
+static int	blend(int base, int blend, float alpha)
+{
+	t_color	new;
+
+	new.c = 0;
+	new.rgb.r = ((base >> 16) & 0xFF) * (1 - alpha) + ((blend >> 16) & 0xFF)
+		* alpha;
+	new.rgb.g = ((base >> 8) & 0xFF) * (1 - alpha) + ((blend >> 8) & 0xFF)
+		* alpha;
+	new.rgb.b = (base & 0xFF) * (1 - alpha) + (blend & 0xFF) * alpha;
+	return (new.c);
+}
+
+static void	draw_xiaolin_wu(t_data *data, int steep,
+	t_pos_double pos, int color)
+{
+	float	frac;
+	int		bg1;
+	int		bg2;
+
+	frac = pos.y - (int)pos.y;
+	if (steep)
+	{
+		bg1 = data->addr[(int)pos.x * data->screen.w + (int)pos.y];
+		bg2 = data->addr[(int)pos.x * data->screen.w + (int)pos.y + 1];
+		put_pixel(data, (int)pos.y, (int)pos.x, blend(bg1, color, 1 - frac));
+		put_pixel(data, (int)pos.y + 1, (int)pos.x, blend(bg2, color, frac));
+	}
+	else
+	{
+		bg1 = data->addr[(int)pos.y * data->screen.w + (int)pos.x];
+		bg2 = data->addr[((int)pos.y + 1) * data->screen.w + (int)pos.x];
+		put_pixel(data, pos.x, (int)pos.y, blend(bg1, color, 1 - frac));
+		put_pixel(data, pos.x, (int)pos.y + 1, blend(bg2, color, frac));
+	}
 }

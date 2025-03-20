@@ -16,7 +16,7 @@ void	mouse_wheel(const int button, t_data *data)
 {
 	if (button == 4)
 	{
-		if (data->map_data.spacing < data->WIDTH)
+		if (data->map_data.spacing < data->screen.w)
 		{
 			data->map_data.spacing *= 1.10;
 			data->map_data.x = -data->map_data.spacing;

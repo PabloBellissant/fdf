@@ -13,8 +13,6 @@
 #include "libft.h"
 #include "fdf.h"
 
-# define COLOR color.color
-
 static void	draw_line(t_data *data, t_point point_a, t_point point_b);
 static void	draw_line_degrade(t_data *data, t_point point_a, t_point point_b);
 
@@ -22,21 +20,21 @@ void	draw(t_data *data, t_point point_a, t_point point_b)
 {
 	if (data->param.draw_line == false)
 	{
-		safe_put_pixel(data, point_a.x_view, point_a.y_view, point_a.COLOR);
+		safe_put_pixel(data, point_a.x_view, point_a.y_view, point_a.color.c);
 		return ;
 	}
 	if (data->param.clipping == true
-		&& cohen_sutherland_clip(data->screen, &point_a, &point_b) == false)
+		&& cohen_sutherland_clip(data, &point_a, &point_b) == false)
 	{
 		return ;
 	}
 	if (data->param.antialiasing == true)
 	{
 		xiaolin_wu(data, point_a, point_b,
-			calc_degrade(point_a.color, point_b.color, 0, *data).color);
+			calc_degrade(point_a.color, point_b.color, 0, *data).c);
 		return ;
 	}
-	if (data->param.degrade == true && point_a.COLOR != point_b.COLOR)
+	if (data->param.degrade == true && point_a.color.c != point_b.color.c)
 		draw_line_degrade(data, point_a, point_b);
 	else
 		draw_line(data, point_a, point_b);
@@ -51,16 +49,16 @@ static void	draw_line(t_data *data, t_point point_a, t_point point_b)
 		<= ft_abs(point_b.x_view - point_a.x_view))
 	{
 		if (point_b.x_view < point_a.x_view)
-			bresenham_h(data, point_b, point_a, COLOR);
+			bresenham_h(data, point_b, point_a, color.c);
 		else
-			bresenham_h(data, point_a, point_b, COLOR);
+			bresenham_h(data, point_a, point_b, color.c);
 	}
 	else
 	{
 		if (point_b.y_view < point_a.y_view)
-			bresenham_v(data, point_b, point_a, COLOR);
+			bresenham_v(data, point_b, point_a, color.c);
 		else
-			bresenham_v(data, point_a, point_b, COLOR);
+			bresenham_v(data, point_a, point_b, color.c);
 	}
 }
 

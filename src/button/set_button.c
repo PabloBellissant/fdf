@@ -34,6 +34,6 @@ void	set_button(t_data *data)
 		"LIMIT_FPS", &set_limit_fps, false};
 	data->button[9] = (t_button){100, 430, 120, 25, WHITE, WHITE,
 		"DEGRADE", &set_degrade, false};
-	data->button[10] = (t_button){100, 470, 120, 25, WHITE, WHITE,
+	data->button[10] = (t_button){235, 430, 120, 25, WHITE, WHITE,
 		"ANTIALIASING", &set_antialiasing, false};
 }

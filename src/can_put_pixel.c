@@ -18,9 +18,9 @@ bool	can_put_pixel(const t_data *data, const t_point point_a)
 		return (false);
 	if (point_a.y_view < 0)
 		return (false);
-	if (point_a.x_view >= data->WIDTH)
+	if (point_a.x_view >= data->screen.w)
 		return (false);
-	if (point_a.y_view >= data->HEIGHT)
+	if (point_a.y_view >= data->screen.h)
 		return (false);
 	return (true);
 }
@@ -31,9 +31,9 @@ bool	can_put_pos(const t_data *data, const t_pos pos)
 		return (false);
 	if (pos.y < 0)
 		return (false);
-	if (pos.x >= data->WIDTH)
+	if (pos.x >= data->screen.w)
 		return (false);
-	if (pos.y >= data->HEIGHT)
+	if (pos.y >= data->screen.h)
 		return (false);
 	return (true);
 }

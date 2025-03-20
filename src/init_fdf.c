@@ -27,7 +27,7 @@ void	init_fdf(t_data *data, char *map_in)
 		map_data->spacing = 1;
 	else
 	{
-		map_data->spacing = data->screen.width / (map_data->size_x * 3);
+		map_data->spacing = data->screen.w / (map_data->size_x * 3);
 		if (map_data->spacing < 1)
 			map_data->spacing = 1;
 	}
@@ -35,7 +35,7 @@ void	init_fdf(t_data *data, char *map_in)
 	init_param(data);
 	set_button(data);
 	set_camera_math(&data->camera);
-	if (data->WIDTH <= 590)
+	if (data->screen.w <= 590)
 		data->param.clipping = false;
 }
 

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_key.c                                          :+:      :+:    :+:   */
+/*   define.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 08:41:14 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/17 08:41:16 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/20 07:39:30 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/20 07:39:58 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#ifndef DEFINE_H
+# define DEFINE_H
 
-bool	*get_key(t_data *data, int value)
-{
-	bool		*keys_list[6];
-	t_input_map	*input;
+# define FDF "-~\\FDF/~-"
 
-	input = &data->input;
-	keys_list[0] = &input->up;
-	keys_list[1] = &input->left;
-	keys_list[2] = &input->down;
-	keys_list[3] = &input->right;
-	keys_list[4] = &input->escape;
-	keys_list[5] = &input->maj;
-	return (keys_list[value]);
-}
+# define BG_COLOR 0x181818
+# define WHITE 0xFFFFFF
+# define CYAN 0x00FFFF
+# define BLACK 0x000000
+
+# define BUTTON_AMOUNT 11
+# define MAPS_AMOUNT 31
+# define FONT "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-16"
+
+# define KEY_TYPE uint64_t
+
+#endif

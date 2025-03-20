@@ -92,7 +92,7 @@ static int	fill_map_vector(char *line, t_vector *vec, size_t line_num)
 	{
 		point.x = i;
 		point.z = ft_atoi(new_line);
-		point.color.color = convert_hexa(get_color_hexa(new_line + 1));
+		point.color.c = convert_hexa(get_color_hexa(new_line + 1));
 		if (vector_add(vec, &point) == -1)
 			return (-1);
 		new_line = ft_strtok(NULL, " ");

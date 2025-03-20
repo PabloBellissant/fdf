@@ -20,21 +20,22 @@ static void	draw_select_zone(t_data *data);
 
 void	draw_gui(t_data *data)
 {
-	if (can_put_rectangle(data, (t_pos){0, 0}, (t_pos){590, data->HEIGHT - 1}))
+	if (can_put_rectangle(data,
+			(t_pos){0, 0}, (t_pos){590, data->screen.h - 1}))
 	{
 		draw_full_rectangle(data, (t_pos){0, 0},
-			(t_pos){590, data->HEIGHT - 1}, L_GRAY);
+			(t_pos){590, data->screen.h - 1}, L_GRAY);
 	}
 	else
 		return ;
-	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 530}))
-		draw_full_rectangle(data, (t_pos){50, 50}, (t_pos){540, 530}, GRAY);
-	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 530}))
-		draw_edge_rectangle(data, (t_pos){50, 50}, (t_pos){540, 530}, WHITE);
-	if (can_put_rectangle(data, (t_pos){50, 580}, (t_pos){540, 1000}))
-		draw_full_rectangle(data, (t_pos){50, 580}, (t_pos){540, 1000}, GRAY);
-	if (can_put_rectangle(data, (t_pos){50, 580}, (t_pos){540, 1000}))
-		draw_edge_rectangle(data, (t_pos){50, 580}, (t_pos){540, 1000}, WHITE);
+	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}))
+		draw_full_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}, GRAY);
+	if (can_put_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}))
+		draw_edge_rectangle(data, (t_pos){50, 50}, (t_pos){540, 490}, WHITE);
+	if (can_put_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}))
+		draw_full_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}, GRAY);
+	if (can_put_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}))
+		draw_edge_rectangle(data, (t_pos){50, 540}, (t_pos){540, 960}, WHITE);
 	if (can_put_rectangle(data, (t_pos){230, 80}, (t_pos){365, 110}))
 		draw_edge_rectangle(data, (t_pos){230, 80}, (t_pos){365, 110}, WHITE);
 	draw_string(*data, (t_pos){245, 100}, "<Settings>", WHITE);
@@ -51,9 +52,9 @@ static void	draw_select_zone(t_data *data)
 	if (mouse_is_pressed(1, *data) == false)
 		return ;
 	if (can_put_rectangle(data, (t_pos){mouse->zone.start_x,
-		mouse->zone.start_y}, (t_pos){mouse->x, mouse->y}) == true)
+			mouse->zone.start_y}, (t_pos){mouse->x, mouse->y}) == true)
 	{
 		draw_edge_rectangle(data, (t_pos){mouse->zone.start_x,
-		mouse->zone.start_y}, (t_pos){mouse->x, mouse->y}, WHITE);
+			mouse->zone.start_y}, (t_pos){mouse->x, mouse->y}, WHITE);
 	}
 }

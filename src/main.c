@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 	if (check_command(argc, argv) == -1)
 		return (-1);
 	ft_bzero(&data, sizeof(data));
-	map_fd = open(INFILE, O_RDONLY);
+	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd == -1)
 	{
 		ft_putstr_fd("Error : File does not exist\n", 2);
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 		free_map(&data.map);
 		return (1);
 	}
-	init_fdf(&data, INFILE);
+	init_fdf(&data, argv[1]);
 	hook_handler(&data);
 	exit_fdf(&data);
 	return (0);
@@ -52,8 +52,8 @@ static int	check_command(int argc, char **argv)
 		ft_putstr_fd("Usage : ./fdf [map_path].fdf\n", 2);
 		return (-1);
 	}
-	arg_len = ft_strlen(INFILE);
-	if (arg_len <= 4 || ft_strcmp(INFILE + arg_len - 4, ".fdf"))
+	arg_len = ft_strlen(argv[1]);
+	if (arg_len <= 4 || ft_strcmp(argv[1] + arg_len - 4, ".fdf"))
 	{
 		ft_putstr_fd("Error : argument must end with '.fdf'\n", 2);
 		return (-1);

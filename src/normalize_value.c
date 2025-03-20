@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	normalize_value(int *value, int	min, int max)
+void	normalize_value(int *value, int min, int max)
 {
 	if (*value >= max)
 		*value = min;

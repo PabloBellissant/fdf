@@ -20,6 +20,14 @@ void	set_antialiasing(t_data *data)
 		data->button[10].pressed = true;
 		data->button[10].color = 0xFFFFFF;
 		data->button[10].text_color = 0x000000;
+		data->param.degrade = false;
+		data->button[9].pressed = false;
+		data->button[9].color = 0xFFFFFF;
+		data->button[9].text_color = 0xFFFFFF;
+		data->param.clipping = true;
+		data->button[3].pressed = true;
+		data->button[3].color = 0xFFFFFF;
+		data->button[3].text_color = 0x000000;
 	}
 	else
 	{

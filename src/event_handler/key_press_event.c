@@ -13,14 +13,14 @@
 #include <X11/keysym.h>
 #include "fdf.h"
 
-int	key_press(const int keycode, t_data *data)
+int	key_press(const KEY_TYPE keycode, t_data *data)
 {
 	static const KEY_TYPE	key_map[] = {XK_Up, XK_Left, XK_Down,
-		XK_Right, XK_Escape};
+		XK_Right, XK_Escape, XK_Shift_L};
 	size_t					i;
 
 	i = 0;
-	while (i < 5)
+	while (i < 6)
 	{
 		if (key_map[i] == keycode)
 		{

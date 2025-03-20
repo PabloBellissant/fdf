@@ -19,9 +19,9 @@ static void	draw_map_info(t_data data, int x, int start_y);
 
 void	draw_data(t_data *data)
 {
-	draw_info(*data, 110, 660);
-	draw_camera_info(*data, 350, 660);
-	draw_map_info(*data, 350, 810);
+	draw_info(*data, 110, 620);
+	draw_camera_info(*data, 350, 620);
+	draw_map_info(*data, 350, 770);
 }
 
 static void	draw_info(t_data data, int x, int start_y)
@@ -46,9 +46,9 @@ static void	draw_info(t_data data, int x, int start_y)
 		data.info.frames_generated);
 	draw_string(data, (t_pos){x - 5, start_y + 145}, "<Screen>", 0xFFFFFF);
 	draw_string_int(data, (t_pos){x, start_y + 175}, "Width: ",
-		data.screen.width);
+		data.screen.w);
 	draw_string_int(data, (t_pos){x, start_y + 200}, "Height: ",
-		data.screen.height);
+		data.screen.h);
 	free(map_name);
 }
 

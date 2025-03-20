@@ -25,7 +25,6 @@ void	init_param(t_data *data)
 	data->param.limit_fps = false;
 	data->param.degrade = false;
 	data->param.antialiasing = false;
-	data->param.filled = false;
 	data->info.frames_generated = 0;
 	data->info.fps = 0;
 }

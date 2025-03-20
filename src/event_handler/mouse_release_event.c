@@ -10,21 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <X11/keysym.h>
 #include "fdf.h"
 
-# define ZONE data->mouse.zone
-
-static bool	select_all_points(t_data *data);
+static void	select_all_points(t_data *data, t_select_zone *zone);
 static void	deselect_all_points(t_data *data);
 static bool	is_in_rectangle(t_point *point, t_pos pos_a, t_pos pos_b);
 
 int	mouse_release(const int button, int x, int y, t_data *data)
 {
-	(void) x;
 	(void) y;
 	if (button == 1)
 	{
-		select_all_points(data);
+		if (x > 490)
+		{
+			if (key_is_pressed(XK_Shift_L, *data) == false)
+				deselect_all_points(data);
+			select_all_points(data, &data->mouse.zone);
+		}
 		data->mouse.left_click = false;
 	}
 	else if (button == 2)
@@ -34,7 +37,7 @@ int	mouse_release(const int button, int x, int y, t_data *data)
 	return (0);
 }
 
-static bool	select_all_points(t_data *data)
+static void	select_all_points(t_data *data, t_select_zone *zone)
 {
 	size_t		x;
 	size_t		y;
@@ -42,7 +45,6 @@ static bool	select_all_points(t_data *data)
 	t_point		*point;
 
 	y = 0;
-	deselect_all_points(data);
 	data->param.have_points_select = false;
 	while (y < data->map.num_elements)
 	{
@@ -51,8 +53,8 @@ static bool	select_all_points(t_data *data)
 		while (x < line->num_elements)
 		{
 			point = get_point(data, x, y);
-			if (point && is_in_rectangle(point, (t_pos){ZONE.start_x,
-				ZONE.start_y}, (t_pos){ZONE.end_x, ZONE.end_y}))
+			if (point && is_in_rectangle(point, (t_pos){zone->start_x,
+					zone->start_y}, (t_pos){zone->end_x, zone->end_y}))
 			{
 				point->is_pressed = true;
 				data->param.have_points_select = true;
@@ -61,7 +63,6 @@ static bool	select_all_points(t_data *data)
 		}
 		++y;
 	}
-	return (data->param.have_points_select);
 }
 
 static void	deselect_all_points(t_data *data)

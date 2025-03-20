@@ -20,6 +20,10 @@ void	set_degrade(t_data *data)
 		data->button[9].pressed = true;
 		data->button[9].color = 0xFFFFFF;
 		data->button[9].text_color = 0x000000;
+		data->param.antialiasing = false;
+		data->button[10].pressed = false;
+		data->button[10].color = 0xFFFFFF;
+		data->button[10].text_color = 0xFFFFFF;
 	}
 	else
 	{

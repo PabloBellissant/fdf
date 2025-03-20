@@ -13,12 +13,12 @@
 #include "libft.h"
 #include "fdf.h"
 
-t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
-						, t_data data)
+t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod,
+						t_data data)
 {
 	t_color	new;
 
-	if (color_a.color == color_b.color)
+	if (color_a.c == color_b.c)
 		return (color_a);
 	if (data.param.degrade == false)
 	{
@@ -27,7 +27,7 @@ t_color	calc_degrade(const t_color color_a, const t_color color_b, double mod
 		new.rgb.b = av(color_a.rgb.b, color_b.rgb.b);
 		return (new);
 	}
-	new.color = 0;
+	new.c = 0;
 	if (mod < 0)
 		mod *= -1;
 	new.rgb.r = color_a.rgb.r * (1 - mod);

@@ -12,26 +12,26 @@
 
 #include "fdf.h"
 
-void plot_circle(t_data *data, int xc, int yc, int x, int y, int color)
-{
-	put_pixel(data, xc + x, yc + y, color);
-	put_pixel(data, xc - x, yc + y, color);
-	put_pixel(data, xc + x, yc - y, color);
-	put_pixel(data, xc - x, yc - y, color);
-	put_pixel(data, xc + y, yc + x, color);
-	put_pixel(data, xc - y, yc + x, color);
-	put_pixel(data, xc + y, yc - x, color);
-	put_pixel(data, xc - y, yc - x, color);
-}
+static void	plot_circle(t_data *data, t_pos pos, int x, int y);
 
-void draw_circle(t_data *data, int xc, int yc, int r, int color)
+void	draw_circle(t_data *data, t_pos pos)
 {
-	int x = 0;
-	int y = r;
-	int d = 3 - 2 * r;
+	int	x;
+	int	y;
+	int	d;
+	int	r;
+
+	r = data->map_data.spacing;
+	if (r < 4)
+		r = 4;
+	if (can_put_pos(data, pos) == false)
+		return ;
+	d = 3 - (r >> 1);
+	y = r >> 2;
+	x = 0;
 	while (x <= y)
 	{
-		plot_circle(data, xc, yc, x, y, color);
+		plot_circle(data, pos, x, y);
 		if (d < 0)
 			d += 4 * x + 6;
 		else
@@ -41,4 +41,16 @@ void draw_circle(t_data *data, int xc, int yc, int r, int color)
 		}
 		x++;
 	}
+}
+
+static void	plot_circle(t_data *data, t_pos pos, int x, int y)
+{
+	safe_put_pixel(data, pos.x + x, pos.y + y, CYAN);
+	safe_put_pixel(data, pos.x - x, pos.y + y, CYAN);
+	safe_put_pixel(data, pos.x + x, pos.y - y, CYAN);
+	safe_put_pixel(data, pos.x - x, pos.y - y, CYAN);
+	safe_put_pixel(data, pos.x + y, pos.y + x, CYAN);
+	safe_put_pixel(data, pos.x - y, pos.y + x, CYAN);
+	safe_put_pixel(data, pos.x + y, pos.y - x, CYAN);
+	safe_put_pixel(data, pos.x - y, pos.y - x, CYAN);
 }

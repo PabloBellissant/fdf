@@ -27,5 +27,9 @@ void	set_clipping(t_data *data)
 		data->button[3].pressed = false;
 		data->button[3].color = 0xFFFFFF;
 		data->button[3].text_color = 0xFFFFFF;
+		data->param.antialiasing = false;
+		data->button[10].pressed = false;
+		data->button[10].color = 0xFFFFFF;
+		data->button[10].text_color = 0xFFFFFF;
 	}
 }

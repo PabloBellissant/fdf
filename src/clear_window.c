@@ -19,11 +19,11 @@ static void	*screen_memset(int *s, int color, size_t n);
 void	clear_window(t_data *data)
 {
 	if (data->param.full_clear == true)
-		screen_memset(data->addr, BG_COLOR, data->HEIGHT * data->line_length);
+		screen_memset(data->addr, BG_COLOR, data->screen.h * data->line_length);
 	else if (data->param.fun_lsd == true)
-		lsd_clear(data->addr, data->HEIGHT * data->line_length);
+		lsd_clear(data->addr, data->screen.h * data->line_length);
 	else if (data->param.motion_blur == true)
-		blur_clear(data->addr, data->HEIGHT * data->line_length);
+		blur_clear(data->addr, data->screen.h * data->line_length);
 }
 
 static void	lsd_clear(void *s, size_t n)
@@ -35,10 +35,10 @@ static void	lsd_clear(void *s, size_t n)
 	i = 0;
 	while (i < n / sizeof(int))
 	{
-		if (ptr[i].color > 0x181818)
-			ptr[i].color >>= 1;
+		if (ptr[i].c > 0x181818)
+			ptr[i].c >>= 1;
 		else
-			ptr[i].color = 0x181818;
+			ptr[i].c = 0x181818;
 		++i;
 	}
 }
@@ -52,14 +52,14 @@ static void	blur_clear(void *s, size_t n)
 	i = 0;
 	while (i < n / sizeof(int))
 	{
-		if (ptr[i].color > 0x181818)
+		if (ptr[i].c > 0x181818)
 		{
 			ptr[i].rgb.r *= 0.95;
 			ptr[i].rgb.g *= 0.95;
 			ptr[i].rgb.b *= 0.95;
 		}
 		else
-			ptr[i].color = 0x181818;
+			ptr[i].c = 0x181818;
 		++i;
 	}
 }
