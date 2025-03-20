@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-static char    *get_next_word(char *s, const char *delim);
+static char	*get_next_word(char *s, const char *delim);
 
-char    *ft_strtok(char *s, const char *delim)
+char	*ft_strtok(char *s, const char *delim)
 {
-	static char    *str = NULL;
-	char        *rvalue;
+	static char	*str = NULL;
+	char		*rvalue;
 
 	if (s)
 	{
@@ -34,7 +34,7 @@ char    *ft_strtok(char *s, const char *delim)
 	return (rvalue);
 }
 
-static char    *get_next_word(char *s, const char *delim)
+static char	*get_next_word(char *s, const char *delim)
 {
 	while (*s && ft_strchr(delim, *s) == NULL)
 		++s;

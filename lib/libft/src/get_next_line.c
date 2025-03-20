@@ -14,13 +14,12 @@
 #include <stdlib.h>
 #include "libft.h"
 
-# define BUFFER_SIZE 2048
+#define BUFFER_SIZE 2048
 
-static void	clear_tab(char *tab, size_t size, int t);
+static void		clear_tab(char *tab, size_t size, int t);
 static ssize_t	find_newline(char *str, int replace_by_endline);
 static ssize_t	ft_read(int fd, char *bu, char *output, ssize_t i);
 static size_t	secure_strlen(char *str);
-static char		*secure_strjoin(char *s1, char *s2);
 
 char	*get_next_line(int fd)
 {
@@ -37,20 +36,17 @@ char	*get_next_line(int fd)
 		if (i == -3)
 			return (output);
 		j = find_newline(bu, 1);
-        if (i == -2)
-          output = NULL;
-        else
-			output = secure_strjoin(output, bu);
+		output = ft_strjoinerr(output, bu, i);
 		if (!output || i == -2)
 			return (NULL);
 		if (j != -1)
-			ft_memmove(bu, bu + j + 1, secure_strlen(bu + j + 1) + 1);
+			ft_memmove(bu, bu + j + 1, ft_strlen(bu + j + 1) + 1);
 		else
 			bu[0] = 0;
-		clear_tab(bu + secure_strlen(bu), BUFFER_SIZE - secure_strlen(bu), 1);
+		clear_tab(bu + ft_strlen(bu), BUFFER_SIZE - ft_strlen(bu), 1);
 	}
 	if (i == 0)
-		output = secure_strjoin(output, "\n");
+		output = ft_strjoinerr(output, "\n", 0);
 	return (output);
 }
 
@@ -122,29 +118,4 @@ static size_t	secure_strlen(char *str)
 	while (str[i])
 		++i;
 	return (i);
-}
-
-static char	*secure_strjoin(char *s1, char *s2)
-{
-	size_t	s1len;
-	size_t	s2len;
-	size_t	i;
-	char	*newstr;
-
-	s1len = secure_strlen(s1);
-	s2len = secure_strlen(s2);
-	newstr = malloc(sizeof(char) * (s1len + s2len + 1));
-	if (!newstr)
-	{
-		free((char *)s1);
-		return (NULL);
-	}
-	i = 0;
-	while (i++ < s1len)
-		newstr[i - 1] = s1[i - 1];
-	while (i++ <= s1len + s2len)
-		newstr[i - 2] = s2[i - 2 - s1len];
-	newstr[i - 2] = 0;
-	free((char *)s1);
-	return (newstr);
 }

@@ -37,6 +37,7 @@ int		free_tab(char **tab);
 int		av(const int val_a, const int val_b);
 
 size_t	ft_strlen(const char *s);
+size_t	ft_securestrlen(const char *s);
 size_t	ft_tab_len(void **tab);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
@@ -68,13 +69,15 @@ char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*secure_strjoin(char *s1, char *s2);
+char	*ft_strjoinerr(char const *s1, char const *s2, ssize_t err);
 char	*ft_strsjoin(char *first, ...);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*get_next_line(int fd);
-char    *ft_strtok(char *s, const char *delim);
+char	*ft_strtok(char *s, const char *delim);
 
 typedef struct s_list
 {
