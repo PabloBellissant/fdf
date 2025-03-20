@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "mlx.h"
-#include "fdf.h"
+#include "../lib/minilibx-linux/mlx.h"
+#include "../include/fdf.h"
 
 void	free_map(t_vector *map);
 

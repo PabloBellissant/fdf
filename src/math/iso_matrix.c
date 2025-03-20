@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_pixel.c                                        :+:      :+:    :+:   */
+/*   iso_matrix.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 03:18:08 by pabellis          #+#    #+#             */
-/*   Updated: 2025/03/06 03:18:09 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/06 03:09:03 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/06 03:09:05 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../include/fdf.h"
 
-inline void	put_pixel(t_data *data, int x, int y, const int color)
+void	iso_matrix(t_point *p, const t_camera camera)
 {
-	data->addr[y * data->screen.w + x] = color;
-}
+	int	x;
+	int	z;
 
-inline void	safe_put_pixel(t_data *data, int x, int y, const int color)
-{
-	if (can_put_pos(data, (t_pos){x, y}) == true)
-		data->addr[y * data->screen.w + x] = color;
+	x = p->x_view;
+	z = p->z_view;
+	p->x_view = (x * camera.cospitch) + (z * -camera.sinpitch);
+	p->z_view = (x * camera.sinpitch) + (z * camera.cospitch);
+	p->y_view = (p->y_view * camera.cosyaw) + (p->z_view * camera.sinyaw);
+	p->z_view = (p->z_view * camera.cosyaw) - (p->y_view * camera.sinyaw);
 }

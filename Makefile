@@ -8,63 +8,64 @@ LIBFTINC = $(LIBFTDIR)/include
 MLX_DIR = lib/minilibx-linux
 
 SRCS =	$(addprefix $(SRCDIR)/, \
-		open_map.c \
-		convert_hexa.c \
-		init_key.c \
-		init_graphic.c \
-		event_handler/key_press_event.c \
-        event_handler/get_key.c \
-		event_handler/key_is_pressed.c \
-		event_handler/key_release_event.c \
-		event_handler/mouse_is_pressed.c \
-		event_handler/mouse_press_event.c \
-        event_handler/mouse_release_event.c \
-        event_handler/mouse_wheel.c \
-        get_map_list.c \
-        get_simple_name.c \
-        check_input/check_input.c \
-        check_input/action/change_height.c \
-        check_input/action/change_height_selected.c \
-        check_input/action/change_map.c \
-        check_input/action/change_param_lag_comp.c \
-        check_input/action/select_zone.c \
-        check_input/action/simple_clic.c \
-        calc_degrade.c \
-        calc_matrix.c \
-        iso_matrix.c \
-        init_param.c \
-        put_pixel.c \
-        get_proc_time.c \
-        draw_gui.c \
-        draw_text/draw_string.c \
-        draw_text/draw_int.c \
-        draw_text/draw_string_int.c \
-        to_rad.c \
-        to_degrees.c \
-        draw_circle.c \
-        draw_line/draw.c \
-        draw_line/bresenham/bresenham.c \
-        draw_line/bresenham/bresenham_degrade.c \
-        draw_line/xiaolin_wu.c \
-        draw_line/cohen_sutherland_clip/cohen_sutherland_clip.c \
-        draw_line/cohen_sutherland_clip/compute_clip.c \
-        draw_line/cohen_sutherland_clip/utils_clip.c \
-        can_put_pixel.c \
-        normalize_camera.c \
-        get_fps.c \
-        draw_rectangle.c \
-        clear_window.c \
-        set_camera_math.c \
-        auto_rotate.c \
-        get_delta_time.c \
-        draw_data.c \
-        ft_sleep.c \
-        hook_handler.c \
-        loop.c \
-        calc_view.c \
-        get_point.c \
-        draw_map.c \
-        normalize_value.c \
+		init/map_loading/open_map.c \
+		init/map_loading/convert_hexa.c \
+        init/map_loading/get_map_list.c \
+        init/map_loading/get_name.c \
+		init/init_key.c \
+       	init/init_fdf.c \
+        init/init_param.c \
+		init/init_graphic.c \
+        math/calc_matrix.c \
+        math/calc_view.c \
+        math/normalize_camera.c \
+        math/normalize_value.c \
+        math/set_camera_math.c \
+        math/to_rad.c \
+        math/to_degrees.c \
+        math/iso_matrix.c \
+        time/get_cpu_time.c \
+        time/ft_sleep.c \
+        time/get_fps.c \
+        time/get_delta_time.c \
+        draw/put_pixel.c \
+        draw/calc_degrade.c \
+        draw/draw_gui.c \
+        draw/draw_data.c \
+        draw/draw_text/draw_string.c \
+        draw/draw_text/draw_int.c \
+        draw/draw_text/draw_string_int.c \
+        draw/draw_line/draw.c \
+        draw/draw_line/bresenham/bresenham.c \
+        draw/draw_line/bresenham/bresenham_degrade.c \
+        draw/draw_line/xiaolin_wu.c \
+        draw/draw_line/cohen_sutherland_clip/cohen_sutherland_clip.c \
+        draw/draw_line/cohen_sutherland_clip/compute_clip.c \
+        draw/draw_line/cohen_sutherland_clip/utils_clip.c \
+        draw/draw_shapes/draw_circle.c \
+        draw/draw_shapes/draw_rectangle.c \
+        draw/draw_map.c \
+        draw/can_put_pixel.c \
+        draw/clear_window.c \
+        loop/check_input/check_input.c \
+        loop/check_input/action/change_height.c \
+        loop/check_input/action/change_height_selected.c \
+        loop/check_input/action/change_map.c \
+        loop/check_input/action/change_param_lag_comp.c \
+        loop/check_input/action/select_zone.c \
+        loop/check_input/action/simple_clic.c \
+		loop/event_handler/key_press_event.c \
+        loop/event_handler/get_key.c \
+		loop/event_handler/key_is_pressed.c \
+		loop/event_handler/key_release_event.c \
+		loop/event_handler/mouse_is_pressed.c \
+		loop/event_handler/mouse_press_event.c \
+        loop/event_handler/mouse_release_event.c \
+        loop/event_handler/mouse_wheel.c \
+        loop/auto_rotate.c \
+        loop/hook_handler.c \
+        loop/loop.c \
+        loop/get_point.c \
         button/set_button.c \
         button/draw_button.c \
         button/click_button.c \
@@ -79,7 +80,6 @@ SRCS =	$(addprefix $(SRCDIR)/, \
        	button/action/set_limit_fps.c \
        	button/action/set_degrade.c \
        	button/action/set_antialiasing.c \
-       	init_fdf.c \
        	exit_fdf.c \
 		main.c)
 
