@@ -19,6 +19,8 @@ void	calc_view(t_vector *map, t_data *data)
 	size_t	num_element;
 	t_map	*map_data;
 
+	if (!map)
+		return ;
 	map_data = &data->map_data;
 	i = 0;
 	num_element = map->num_elements;

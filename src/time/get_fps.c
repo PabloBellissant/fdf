@@ -14,10 +14,10 @@
 
 int	get_fps(void)
 {
-	static int	start_time;
-	static int	frame_generated;
-	static int	fps;
-	int			new_time;
+	static size_t	start_time;
+	static int		frame_generated;
+	static int		fps;
+	size_t			new_time;
 
 	if (start_time == 0)
 		start_time = get_cpu_time();

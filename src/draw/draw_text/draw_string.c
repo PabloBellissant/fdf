@@ -25,6 +25,8 @@ void	draw_center_string(const t_data data, t_pos pos, char *str, int color)
 {
 	int	adjust;
 
+	if (!str)
+		return ;
 	adjust = 5 * ft_strlen(str);
 	mlx_string_put(data.mlx, data.win, pos.x - adjust, pos.y + 6, color, str);
 }

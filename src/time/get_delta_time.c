@@ -15,8 +15,8 @@
 size_t	get_delta_time(void)
 {
 	static int	last_time;
-	int			new_time;
-	int			output;
+	size_t		new_time;
+	size_t		output;
 
 	if (last_time == 0)
 		last_time = get_cpu_time();

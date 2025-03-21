@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 static void		draw_map_backward(t_data *data);
 static t_point	*draw_single(t_data *data, t_pos *pos, int dif, t_point *point);

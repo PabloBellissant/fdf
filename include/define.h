@@ -19,6 +19,8 @@
 # define WHITE 0xFFFFFF
 # define CYAN 0x00FFFF
 # define BLACK 0x000000
+# define D_GRAY 0x292929
+# define L_GRAY 0x212121
 
 # define BUTTON_AMOUNT 11
 # define MAPS_AMOUNT 31

@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../lib/minilibx-linux/mlx.h"
-#include "../include/fdf.h"
+#include "mlx.h"
+#include "fdf.h"
 
 void	free_map(t_vector *map);
 
@@ -39,7 +39,8 @@ void	free_map(t_vector *map)
 	while (i < map->num_elements)
 	{
 		line = get_vector_value(map, i);
-		free_vector(line);
+		if (line)
+			free_vector(line);
 		++i;
 	}
 	free_vector(map);

@@ -14,6 +14,8 @@
 
 void	draw_string_int(const t_data data, t_pos pos, char *str, int value)
 {
-	draw_string(data, pos, str, 0xFFFFFF);
+	draw_string(data, pos, str, WHITE);
+	if (!str)
+		return ;
 	draw_int(data, pos.x + (10 * ft_strlen(str)), pos.y, value);
 }

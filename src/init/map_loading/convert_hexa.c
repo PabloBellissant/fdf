@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "fdf.h"
 
 int	convert_hexa(const char *str)
 {
@@ -20,7 +21,7 @@ int	convert_hexa(const char *str)
 	result = 0;
 	i = 0;
 	if (!str)
-		return (0xFFFFFF);
+		return (WHITE);
 	while (ft_isalnum(str[i]))
 	{
 		result *= 16;
@@ -31,7 +32,7 @@ int	convert_hexa(const char *str)
 		else if (str[i] >= 'a' && str[i] <= 'f')
 			result += str[i] - 'a' + 10;
 		else
-			return (0xFFFFFF);
+			return (WHITE);
 		i++;
 	}
 	return (result);

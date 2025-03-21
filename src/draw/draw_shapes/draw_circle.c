@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 static void	plot_circle(t_data *data, t_pos pos, int x, int y);
 

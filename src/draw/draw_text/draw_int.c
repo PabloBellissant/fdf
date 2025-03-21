@@ -21,6 +21,6 @@ void	draw_int(const t_data data, const int x, const int y, int value)
 	value_in_str = ft_itoa(value);
 	if (!value_in_str)
 		return ;
-	mlx_string_put(data.mlx, data.win, x, y, 0xFFFFFF, value_in_str);
+	mlx_string_put(data.mlx, data.win, x, y, WHITE, value_in_str);
 	free(value_in_str);
 }

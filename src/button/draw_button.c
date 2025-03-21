@@ -12,8 +12,6 @@
 
 #include "fdf.h"
 
-#define L_GRAY 0x292929
-
 void	draw_buttons(t_data *data)
 {
 	int			i;
@@ -32,7 +30,7 @@ void	draw_buttons(t_data *data)
 			else
 			{
 				draw_fill_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
-					b.x + b.dim_x, b.y + b.dim_y}, L_GRAY);
+					b.x + b.dim_x, b.y + b.dim_y}, D_GRAY);
 				draw_edge_rectangle(data, (t_pos){b.x, b.y}, (t_pos){
 					b.x + b.dim_x, b.y + b.dim_y}, b.color);
 			}
