@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabellis <mail@bellissantpablo.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 14:45:09 by pabellis          #+#    #+#             */
-/*   Updated: 2024/12/16 04:04:04 by pabellis         ###   ########.fr       */
+/*   Created: 2025/03/02 18:34:46 by pabellis          #+#    #+#             */
+/*   Updated: 2025/03/21 04:42:30 by pabellis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,108 +14,82 @@
 #include <stdlib.h>
 #include "libft.h"
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 256
 
-static void		clear_tab(char *tab, size_t size, int t);
-static ssize_t	find_newline(char *str, int replace_by_endline);
-static ssize_t	ft_read(int fd, char *bu, char *output, ssize_t i);
-static size_t	secure_strlen(char *str);
+static ssize_t	read_buffer_first(char *buffer, t_vector *vec, int fd);
+static char		*put_to_buffer(t_vector *vec, char *buffer);
+static int		set_size(t_vector *vec);
 
 char	*get_next_line(int fd)
 {
-	static char		bu[BUFFER_SIZE + 1];
-	char			*output;
-	ssize_t			i;
-	ssize_t			j;
+	static char	buffer[BUFFER_SIZE];
+	ssize_t		i;
+	t_vector	vec;
 
+	if (vector_init(&vec, sizeof(char)) == -1)
+		return (NULL);
 	i = BUFFER_SIZE;
-	output = NULL;
-	while (i >= BUFFER_SIZE)
+	while (i > 0)
 	{
-		i = ft_read(fd, bu, output, i);
-		if (i == -3)
-			return (output);
-		j = find_newline(bu, 1);
-		output = ft_strjoinerr(output, bu, i);
-		if (!output || i == -2)
+		if (set_size(&vec) == -1)
+		{
+			free(vec.data);
 			return (NULL);
-		if (j != -1)
-			ft_memmove(bu, bu + j + 1, ft_strlen(bu + j + 1) + 1);
-		else
-			bu[0] = 0;
-		clear_tab(bu + ft_strlen(bu), BUFFER_SIZE - ft_strlen(bu), 1);
+		}
+		i = read_buffer_first(buffer, &vec, fd);
+		if (i == -1 || vec.num_elements == 0)
+		{
+			free(vec.data);
+			return (NULL);
+		}
+		if (put_to_buffer(&vec, buffer) != NULL)
+			return (vec.data);
 	}
-	if (i == 0)
-		output = ft_strjoinerr(output, "\n", 0);
+	((char *)vec.data)[vec.num_elements] = 0;
+	return (vec.data);
+}
+
+static int	set_size(t_vector *vec)
+{
+	while (vec->max_elements - vec->num_elements <= BUFFER_SIZE)
+	{
+		if (vector_realloc(vec) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+static char	*put_to_buffer(t_vector *vec, char *buffer)
+{
+	char	*new_line;
+	size_t	size_to_put;
+
+	new_line = ft_memchr(vec->data, '\n', vec->num_elements);
+	if (new_line != NULL)
+	{
+		size_to_put = (char *)(vec->data + vec->num_elements) - new_line - 1;
+		ft_memcpy(buffer, new_line + 1, size_to_put);
+		buffer[size_to_put] = 0;
+		*(new_line + 1) = 0;
+		return (vec->data);
+	}
+	return (NULL);
+}
+
+static ssize_t	read_buffer_first(char *buffer, t_vector *vec, int fd)
+{
+	ssize_t	buffer_len;
+	ssize_t	output;
+
+	buffer_len = ft_strlen(buffer);
+	if (buffer_len > 0)
+	{
+		ft_memcpy((char *)vec->data + vec->num_elements, buffer, buffer_len);
+		buffer[0] = 0;
+		vec->num_elements += buffer_len;
+		return (BUFFER_SIZE);
+	}
+	output = read(fd, vec->data + vec->num_elements, BUFFER_SIZE);
+	vec->num_elements += output;
 	return (output);
-}
-
-static ssize_t	ft_read(int fd, char *bu, char *output, ssize_t i)
-{
-	size_t	bu_len;
-	size_t	output_len;
-
-	bu_len = secure_strlen(bu);
-	if (find_newline(bu, 0) == -1 && bu_len < 1)
-	{
-		if (read(fd, bu + bu_len, BUFFER_SIZE) == -1)
-		{
-			free(output);
-			clear_tab(bu, BUFFER_SIZE, 1);
-			return (-2);
-		}
-		i = secure_strlen(bu);
-		output_len = secure_strlen(output);
-		if (i == 0 && output_len != 0)
-			i = -1;
-		if (i == 0 && output_len == 0)
-			return (-3);
-	}
-	if (find_newline(bu, 0) != -1)
-		return (0);
-	return (i);
-}
-
-static ssize_t	find_newline(char *str, int replace_by_endline)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-		{
-			if (replace_by_endline == 1)
-				str[i] = 0;
-			return (i);
-		}
-		++i;
-	}
-	return (-1);
-}
-
-static void	clear_tab(char *tab, size_t size, int t)
-{
-	size_t	i;
-
-	if (t != 1)
-		return ;
-	i = 0;
-	while (i < size)
-	{
-		tab[i] = 0;
-		++i;
-	}
-}
-
-static size_t	secure_strlen(char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		++i;
-	return (i);
 }

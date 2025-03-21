@@ -13,8 +13,6 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static int	vector_realloc(t_vector *vector);
-
 int	vector_add(t_vector *vector, void *element)
 {
 	if (!vector || !element)
@@ -30,7 +28,7 @@ int	vector_add(t_vector *vector, void *element)
 	return (0);
 }
 
-static int	vector_realloc(t_vector *vector)
+int	vector_realloc(t_vector *vector)
 {
 	void	*new_data;
 

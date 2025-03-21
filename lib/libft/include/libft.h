@@ -110,6 +110,7 @@ int		vector_add(t_vector *vector, void *element);
 int		vector_init(t_vector *vector, size_t element_size);
 void	*get_vector_value(t_vector *vector, size_t i);
 void	free_vector(t_vector *vector);
+int		vector_realloc(t_vector *vector);
 
 bool	is_above_int(char *value_in_str);
 
