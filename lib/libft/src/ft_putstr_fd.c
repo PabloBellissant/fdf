@@ -17,9 +17,12 @@
  * @brief Outputs the string ’s’ to the given file descriptor.
  * @param s The string to output.
  * @param fd The file descriptor on which to write.
+ * @return -1 if write fail, 0 instead.
  * @author Bellissant Pablo
  */
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen(s));
+	if (write(fd, s, ft_strlen(s)) == -1)
+		return (-1);
+	return (0);
 }
