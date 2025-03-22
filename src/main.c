@@ -34,9 +34,12 @@ int	main(int argc, char **argv)
 	if (open_map(&data, map_fd) == -1 || close(map_fd) == -1
 		|| init_graphic(&data) == -1)
 	{
+		close(map_fd);
 		free_map(&data.map);
 		return (1);
 	}
+	return 1;
+
 	init_fdf(&data, argv[1]);
 	hook_handler(&data);
 	exit_fdf(&data);
